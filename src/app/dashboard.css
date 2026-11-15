@@ -974,6 +974,52 @@ body:has(.dash-shell-container) .announcement {
   gap: 16px;
 }
 
+.dash-overview-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  margin-top: 8px;
+  border-bottom: 1px solid #edf1ec;
+  margin-bottom: 12px;
+}
+
+.dash-overview-table-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #191c19;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.dash-overview-table-subtitle {
+  font-size: 13px;
+  color: #555e54;
+  margin: 2px 0 0 0;
+}
+
+.dash-overview-view-all {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2e5233;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #f4f7f3;
+  border: 1px solid #e1e7e0;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.dash-overview-view-all:hover {
+  background: #e8efe7;
+  color: #1b341f;
+  border-color: #d0ded0;
+}
+
 .dash-table-header-bar {
   display: flex;
   align-items: center;
@@ -1595,6 +1641,52 @@ body:has(.dash-shell-container) .announcement {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.dash-overview-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 0;
+  margin-top: 8px;
+  border-bottom: 1px solid #edf1ec;
+  margin-bottom: 12px;
+}
+
+.dash-overview-table-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #191c19;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.dash-overview-table-subtitle {
+  font-size: 13px;
+  color: #555e54;
+  margin: 2px 0 0 0;
+}
+
+.dash-overview-view-all {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2e5233;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  background: #f4f7f3;
+  border: 1px solid #e1e7e0;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.dash-overview-view-all:hover {
+  background: #e8efe7;
+  color: #1b341f;
+  border-color: #d0ded0;
 }
 
 .dash-table-header-bar {
