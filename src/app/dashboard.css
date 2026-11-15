@@ -1349,6 +1349,16 @@ body:has(.dash-shell-container) .announcement {
   padding: 16px 18px !important;
 }
 
+.dash-stat-skel {
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+  background: linear-gradient(90deg, #edf1ec 25%, #f4f7f3 50%, #edf1ec 75%);
+  background-size: 200% 100%;
+  animation: dashShimmer 1.5s infinite;
+  border-radius: 4px;
+}
+
 .dash-skel-cell {
   height: 14px;
   background: linear-gradient(90deg, #edf1ec 25%, #f4f7f3 50%, #edf1ec 75%);
@@ -1960,6 +1970,16 @@ body:has(.dash-shell-container) .announcement {
 /* Table In-Place Skeleton */
 .dash-skel-row td {
   padding: 16px 18px !important;
+}
+
+.dash-stat-skel {
+  display: inline-block;
+  width: 48px;
+  height: 28px;
+  background: linear-gradient(90deg, #edf1ec 25%, #f4f7f3 50%, #edf1ec 75%);
+  background-size: 200% 100%;
+  animation: dashShimmer 1.5s infinite;
+  border-radius: 4px;
 }
 
 .dash-skel-cell {
