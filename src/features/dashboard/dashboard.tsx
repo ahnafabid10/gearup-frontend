@@ -30,16 +30,7 @@ export function Dashboard({
   const urlTab = searchParams.get("tab");
 
   const defaultTab = view === "orders" ? "orders" : "overview";
-
-  const [overrideTab, setOverrideTab] = useState<string | null>(null);
-  const [prevUrlTab, setPrevUrlTab] = useState(urlTab);
-
-  if (urlTab !== prevUrlTab) {
-    setPrevUrlTab(urlTab);
-    setOverrideTab(null);
-  }
-
-  const tab = overrideTab || urlTab || defaultTab;
+  const tab = urlTab || defaultTab;
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
   const [notice, setNotice] = useState("");
@@ -446,13 +437,15 @@ export function Dashboard({
         <ProfileSettings role={role} />
       ) : (
         <>
-          {/* 4 Stat Metric Cards (Always visible) & Activity Chart (on Overview) */}
-          <DashboardOverview
-            role={role}
-            showGraph={tab === "overview"}
-            initialOrders={tab === "overview" || tab === "orders" ? list : undefined}
-            loadingOrders={loading}
-          />
+          {/* Executive Overview: 4 Stat Metric Cards & Activity Chart (on Overview) */}
+          {tab === "overview" && (
+            <DashboardOverview
+              role={role}
+              showGraph={true}
+              initialOrders={list}
+              loadingOrders={loading}
+            />
+          )}
 
           {/* Customer Action Center: Pending Payments Alert */}
           {role === "customer" && pendingPayments.length > 0 && (
@@ -496,48 +489,57 @@ export function Dashboard({
             </section>
           )}
 
-          {/* Controls Bar & Pill Toggles */}
-          <div className="dash-controls-bar">
-            <div className="dash-pills">
-              {(role === "admin"
-                ? ["overview", "users", "inventory", "orders"]
-                : role === "provider"
-                  ? ["overview", "inventory", "orders"]
-                  : ["overview", "orders", "payments"]
-              ).map((t) => (
-                <button
-                  key={t}
-                  type="button"
-                  className={`dash-pill ${tab === t ? "active" : ""}`}
-                  onClick={() => {
-                    setOverrideTab(t);
-                    setPage(1);
-                  }}
-                >
-                  {t === "overview"
-                    ? "Overview"
-                    : t === "users"
-                      ? "Members Directory"
-                      : t === "inventory"
-                        ? role === "admin" ? "All Equipment" : "My Inventory"
-                        : t === "orders"
-                          ? role === "customer" ? "My Rentals" : "Incoming Bookings"
-                          : "Payment History"}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {notice && (
             <div className="dash-inline-notice" role="status">
               <span>{notice}</span>
             </div>
           )}
 
+          {/* Overview Table Header */}
+          {tab === "overview" && (
+            <div className="dash-overview-table-header">
+              <div>
+                <h2 className="dash-overview-table-title">
+                  {role === "customer"
+                    ? "Recent Rentals"
+                    : role === "provider"
+                      ? "Recent Incoming Bookings"
+                      : "Recent Platform Bookings"}
+                </h2>
+                <p className="dash-overview-table-subtitle">
+                  {role === "customer"
+                    ? "Your latest equipment reservations and status."
+                    : role === "provider"
+                      ? "Latest orders placed by customers awaiting action."
+                      : "Platform-wide equipment transactions."}
+                </p>
+              </div>
+              <Link
+                href={
+                  role === "customer"
+                    ? "/dashboard/customer?tab=orders"
+                    : role === "provider"
+                      ? "/dashboard/provider/orders"
+                      : "/dashboard/admin?tab=orders"
+                }
+                className="dash-overview-view-all"
+              >
+                <span>
+                  {role === "customer"
+                    ? "View all rentals"
+                    : role === "provider"
+                      ? "View all incoming orders"
+                      : "View all platform bookings"}
+                </span>
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          )}
+
           {/* Reusable DataTable Component with Pagination & Search */}
           <DataTable
             columns={currentColumns}
-            data={list}
+            data={tab === "overview" ? list.slice(0, 5) : list}
             loading={loading}
             error={error}
             retry={reload}

@@ -1,8 +1,6 @@
 import { Suspense } from "react";
 import { Dashboard } from "@/features/dashboard/dashboard";
 
-export const dynamic = "force-dynamic";
-
 export default async function Page({
   params,
 }: {

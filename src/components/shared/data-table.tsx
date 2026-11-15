@@ -81,7 +81,7 @@ export function DataTable<T extends { id?: string | number }>({
               </tr>
             </thead>
             <tbody>
-              {loading && !data.length ? (
+              {loading ? (
                 // Clean 5-row shimmering skeleton inside table
                 Array.from({ length: 5 }).map((_, rIdx) => (
                   <tr key={`skel-${rIdx}`} className="dash-skel-row">

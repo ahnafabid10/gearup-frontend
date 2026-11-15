@@ -58,10 +58,12 @@ export function ActivityGraph({
   role,
   title = "Platform Activity & Rental Velocity",
   items = [],
+  loading = false,
 }: {
   role: string;
   title?: string;
   items?: GearRecord[];
+  loading?: boolean;
 }) {
   const [metric, setMetric] = useState<"rentals" | "revenue">("rentals");
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
@@ -95,9 +97,13 @@ export function ActivityGraph({
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-          <span className="dash-stat-chip" style={{ fontSize: "12px", fontWeight: "600" }}>
-            {metric === "revenue" ? formatMoney(totalSum) : `${totalSum} Total Bookings`}
-          </span>
+          {loading ? (
+            <span className="dash-stat-skel" style={{ width: "90px", height: "20px" }} />
+          ) : (
+            <span className="dash-stat-chip" style={{ fontSize: "12px", fontWeight: "600" }}>
+              {metric === "revenue" ? formatMoney(totalSum) : `${totalSum} Total Bookings`}
+            </span>
+          )}
 
           <div className="dash-chart-controls">
             <button

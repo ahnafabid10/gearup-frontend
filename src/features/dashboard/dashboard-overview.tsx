@@ -215,6 +215,7 @@ export function DashboardOverview({
                 : "Rental Frequency & Outdoor Milestones"
           }
           items={role === "provider" ? providerOrdersList : activeRentalsList}
+          loading={isRentalsLoading}
         />
       )}
     </div>
