@@ -18,9 +18,11 @@ import { ActivityGraph } from "@/components/dashboard/activity-graph";
 export function DashboardOverview({
   role,
   showGraph = true,
+  initialOrders = [],
 }: {
   role: string;
   showGraph?: boolean;
+  initialOrders?: GearRecord[];
 }) {
   const usersReq = useApiData(role === "admin" ? "admin/users?limit=1" : "");
   const gearReq = useApiData(
@@ -32,20 +34,47 @@ export function DashboardOverview({
   );
   const rentalsReq = useApiData(
     role === "admin"
-      ? "admin/rentals?limit=1"
+      ? "admin/rentals?limit=50"
       : role === "provider"
         ? "provider/orders"
-        : "rentals"
+        : initialOrders.length > 0
+          ? ""
+          : "rentals"
   );
   const paymentsReq = useApiData(role === "customer" ? "payments" : "");
 
-  const count = (r: ReturnType<typeof useApiData>) =>
-    r.loading || r.error ? "—" : (r.data?.meta?.total ?? getRows(r.data).length);
+  const activeRentalsList =
+    initialOrders.length > 0
+      ? initialOrders
+      : getRows(rentalsReq.data);
 
-  // Calculations for 4 metric cards per role
-  const providerOrdersList = getRows(rentalsReq.data);
-  const customerRentalsList = getRows(rentalsReq.data);
+  const providerOrdersList =
+    role === "provider" && initialOrders.length > 0
+      ? initialOrders
+      : getRows(rentalsReq.data);
 
+  // Dynamic calculations for Customer
+  const customerTotalRentals = activeRentalsList.length;
+
+  const customerActiveCount = activeRentalsList.filter((x) =>
+    ["CONFIRMED", "PAID", "PICKED_UP"].includes(x.status || "")
+  ).length;
+
+  const customerPendingCheckout = activeRentalsList.filter(
+    (x) => x.status === "CONFIRMED"
+  ).length;
+
+  const paymentsList = getRows(paymentsReq.data);
+  const customerTotalSpent =
+    paymentsList.length > 0
+      ? paymentsList
+          .filter((p) => p.status === "COMPLETED")
+          .reduce((sum, p) => sum + (Number(p.amount) || 0), 0)
+      : activeRentalsList
+          .filter((x) => ["PAID", "PICKED_UP", "RETURNED"].includes(x.status || ""))
+          .reduce((sum, x) => sum + (Number(x.totalAmount) || 0), 0);
+
+  // Dynamic calculations for Provider
   const providerActiveCount = providerOrdersList.filter((x) =>
     ["PAID", "PICKED_UP"].includes(x.status || "")
   ).length;
@@ -58,36 +87,29 @@ export function DashboardOverview({
     .filter((x) => ["PAID", "PICKED_UP", "RETURNED"].includes(x.status || ""))
     .reduce((sum, x) => sum + (Number(x.totalAmount) || 0), 0);
 
-  const customerActiveCount = customerRentalsList.filter((x) =>
-    ["CONFIRMED", "PAID", "PICKED_UP"].includes(x.status || "")
-  ).length;
-
-  const customerPendingCheckout = customerRentalsList.filter(
-    (x) => x.status === "CONFIRMED"
-  ).length;
-
-  const customerTotalSpent = getRows(paymentsReq.data)
-    .filter((p) => p.status === "COMPLETED")
-    .reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+  // Dynamic calculations for Admin
+  const adminUsersTotal = usersReq.data?.meta?.total ?? getRows(usersReq.data).length;
+  const adminGearTotal = gearReq.data?.meta?.total ?? getRows(gearReq.data).length;
+  const adminRentalsTotal = rentalsReq.data?.meta?.total ?? getRows(rentalsReq.data).length;
 
   const cards =
     role === "admin"
       ? [
           {
             label: "Registered Users",
-            value: count(usersReq),
+            value: usersReq.loading && !adminUsersTotal ? <span className="dash-stat-skel" /> : adminUsersTotal,
             icon: FiUsers,
-            hint: "Active & verified members",
+            hint: "Active platform accounts",
           },
           {
             label: "Gear Inventory",
-            value: count(gearReq),
+            value: gearReq.loading && !adminGearTotal ? <span className="dash-stat-skel" /> : adminGearTotal,
             icon: FiBox,
-            hint: "Live equipment listings",
+            hint: "Active equipment in stock",
           },
           {
             label: "Rental Transactions",
-            value: count(rentalsReq),
+            value: rentalsReq.loading && !adminRentalsTotal ? <span className="dash-stat-skel" /> : adminRentalsTotal,
             icon: FiActivity,
             hint: "Total platform bookings",
           },
@@ -102,25 +124,25 @@ export function DashboardOverview({
         ? [
             {
               label: "Inventory Listed",
-              value: count(gearReq),
+              value: gearReq.loading ? <span className="dash-stat-skel" /> : (gearReq.data?.meta?.total ?? getRows(gearReq.data).length),
               icon: FiBox,
               hint: "Active equipment in stock",
             },
             {
               label: "Active Rentals",
-              value: rentalsReq.loading ? "—" : providerActiveCount,
+              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : providerActiveCount,
               icon: FiActivity,
               hint: "Currently with customers",
             },
             {
               label: "Total Earnings",
-              value: rentalsReq.loading ? "—" : formatMoney(providerTotalRevenue),
+              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : formatMoney(providerTotalRevenue),
               icon: FiDollarSign,
               hint: "Settled rental revenue",
             },
             {
               label: "Pending Orders",
-              value: rentalsReq.loading ? "—" : providerPendingCount,
+              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : providerPendingCount,
               icon: FiClipboard,
               hint: "Awaiting your confirmation",
             },
@@ -128,26 +150,29 @@ export function DashboardOverview({
         : [
             {
               label: "Total Rentals",
-              value: count(rentalsReq),
+              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : customerTotalRentals,
               icon: FiCalendar,
               hint: "Your booking history",
             },
             {
               label: "Active Adventures",
-              value: rentalsReq.loading ? "—" : customerActiveCount,
+              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : customerActiveCount,
               icon: FiBox,
               hint: "Current or confirmed gear",
             },
             {
               label: "Total Invested",
-              value: paymentsReq.loading ? "—" : formatMoney(customerTotalSpent),
+              value: paymentsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : formatMoney(customerTotalSpent),
               icon: FiDollarSign,
               hint: "Total equipment spend",
             },
             {
               label: "Pending Checkout",
-              value: rentalsReq.loading ? "—" : customerPendingCheckout,
+              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : customerPendingCheckout,
               icon: FiCreditCard,
+              hint: "Awaiting Stripe payment",
+            },
+          ];
               hint: "Awaiting Stripe payment",
             },
           ];
@@ -184,6 +209,7 @@ export function DashboardOverview({
                 ? "Platform Activity & Velocity"
                 : "Rental Frequency & Outdoor Milestones"
           }
+          items={role === "provider" ? providerOrdersList : activeRentalsList}
         />
       )}
     </div>

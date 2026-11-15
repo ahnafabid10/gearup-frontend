@@ -447,7 +447,11 @@ export function Dashboard({
       ) : (
         <>
           {/* 4 Stat Metric Cards (Always visible) & Activity Chart (on Overview) */}
-          <DashboardOverview role={role} showGraph={tab === "overview"} />
+          <DashboardOverview
+            role={role}
+            showGraph={tab === "overview"}
+            initialOrders={list}
+          />
 
           {/* Customer Action Center: Pending Payments Alert */}
           {role === "customer" && pendingPayments.length > 0 && (
