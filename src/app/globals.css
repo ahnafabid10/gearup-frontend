@@ -1110,3 +1110,797 @@ td small {
 .payment-result .page-title {
   margin: 0;
 }
+
+
+/* ==========================================================================
+   UNSLOP CRAFTED ENTERPRISE DASHBOARD STYLES
+   ========================================================================== */
+
+body:has(.dash-shell-container) .footer-wrap {
+  display: none !important;
+}
+
+body:has(.dash-shell-container) .header {
+  display: none !important;
+}
+
+body:has(.dash-shell-container) .announcement {
+  display: none !important;
+}
+
+.dash-shell-container {
+  display: flex;
+  min-height: 100vh;
+  background: #ffffff;
+  color: #191c19;
+}
+
+/* Persistent Left Sidebar */
+.dash-sidebar {
+  width: 260px;
+  min-width: 260px;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  background: #fbfcfb;
+  border-right: 1px solid #e5e9e4;
+  display: flex;
+  flex-direction: column;
+  z-index: 40;
+}
+
+.dash-sidebar-header {
+  padding: 20px 20px 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #edf1ec;
+}
+
+.dash-brand {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  color: #191c19;
+  text-decoration: none;
+}
+
+.dash-brand span {
+  color: #2e5233;
+}
+
+.dash-role-badge {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.04em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.dash-role-badge.role-customer {
+  background: #e3efff;
+  color: #1f4782;
+}
+
+.dash-role-badge.role-provider {
+  background: #e6f1d7;
+  color: #34591a;
+}
+
+.dash-role-badge.role-admin {
+  background: #fff0cf;
+  color: #8c5717;
+}
+
+/* User Identity Card */
+.dash-user-card {
+  margin: 16px 16px 12px 16px;
+  padding: 10px 12px;
+  background: #ffffff;
+  border: 1px solid #e4e8e3;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dash-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2e5233;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.dash-user-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.dash-user-name {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #191c19;
+}
+
+.dash-user-email {
+  font-size: 11px;
+  color: #636b62;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Sidebar Navigation Items */
+.dash-nav {
+  padding: 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.dash-nav-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #7a8278;
+  letter-spacing: 0.06em;
+  padding: 14px 10px 4px 10px;
+  text-transform: uppercase;
+}
+
+.dash-nav-item {
+  height: 36px;
+  padding: 0 10px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  font-weight: 450;
+  color: #555d53;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  transition: all 120ms ease;
+  position: relative;
+}
+
+.dash-nav-item:hover {
+  background: #f0f3ef;
+  color: #191c19;
+}
+
+.dash-nav-item.active {
+  background: #e9eee7;
+  color: #213d25;
+  font-weight: 600;
+}
+
+.dash-nav-item.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: #2e5233;
+  border-radius: 0 2px 2px 0;
+}
+
+.dash-nav-icon {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.dash-alert-badge {
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #fff0cf;
+  color: #8f5819;
+  border: 1px solid #fae3af;
+  margin-left: auto;
+}
+
+.dash-nav-divider {
+  height: 1px;
+  background: #e7ece5;
+  margin: 12px 10px;
+}
+
+.dash-sidebar-footer {
+  padding: 14px 16px;
+  border-top: 1px solid #edf1ec;
+}
+
+.dash-signout-btn {
+  width: 100%;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: #636b62;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.dash-signout-btn:hover {
+  background: #fce9e6;
+  color: #9d493e;
+}
+
+/* Mobile Bar & Drawer */
+.dash-mobile-bar {
+  display: none;
+}
+
+.dash-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 45;
+}
+
+/* Main Viewport & Top Header */
+.dash-main-viewport {
+  flex: 1;
+  min-width: 0;
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-top-header {
+  height: 56px;
+  border-bottom: 1px solid #e7ece5;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 32px;
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.dash-top-crumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.dash-crumb-root {
+  color: #6f776d;
+}
+
+.dash-crumb-sep {
+  color: #a4aca1;
+}
+
+.dash-crumb-current {
+  color: #191c19;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.dash-top-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  color: #555d53;
+}
+
+.dash-status-indicator {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #3eb578;
+}
+
+.dash-page-body {
+  padding: 32px;
+  max-width: 1360px;
+  width: 100%;
+}
+
+/* Content Elements & Headings */
+.dash-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.dash-header-section {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dash-eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #2e5233;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.dash-page-title {
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  margin: 0 0 6px 0;
+  color: #191c19;
+}
+
+.dash-subtitle {
+  font-size: 14px;
+  color: #5e665d;
+  margin: 0;
+  max-width: 650px;
+}
+
+.dash-header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #2e5233;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 550;
+  text-decoration: none;
+}
+
+.dash-header-cta:hover {
+  background: #234127;
+}
+
+/* Stat Cards (Strict 4px grid rhythm) */
+.dash-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.dash-stat-card {
+  padding: 20px 24px;
+  background: #ffffff;
+  border: 1px solid #e4e8e3;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: border-color 150ms ease;
+}
+
+.dash-stat-card:hover {
+  border-color: #c5cdc2;
+}
+
+.dash-stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #636b62;
+}
+
+.dash-stat-value {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -1px;
+  color: #191c19;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.15;
+  margin: 4px 0 2px 0;
+}
+
+.dash-stat-hint {
+  font-size: 12px;
+  color: #7b8379;
+}
+
+/* Customer Payment Alert Box (Action Center) */
+.dash-payment-alert-box {
+  padding: 22px 24px;
+  background: #fefcf7;
+  border: 1px solid #ecd8af;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dash-alert-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: #fff0cf;
+  color: #8c5717;
+  border: 1px solid #fae3af;
+  margin-bottom: 6px;
+}
+
+.dash-payment-alert-header h2 {
+  font-size: 17px;
+  font-weight: 600;
+  color: #2d2008;
+  margin: 0 0 4px 0;
+}
+
+.dash-payment-alert-header p {
+  font-size: 13.5px;
+  color: #6d542b;
+  margin: 0;
+}
+
+.dash-payment-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dash-payment-card-row {
+  background: #ffffff;
+  border: 1px solid #ecd8af;
+  border-radius: 6px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.dash-payment-gear-info strong {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #191c19;
+  display: block;
+}
+
+.dash-payment-dates {
+  font-size: 12.5px;
+  color: #636b62;
+  display: block;
+}
+
+.dash-payment-action-group {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.dash-payment-amount {
+  text-align: right;
+}
+
+.dash-payment-amount small {
+  display: block;
+  font-size: 11px;
+  color: #7b8379;
+}
+
+.dash-payment-amount strong {
+  display: block;
+  font-size: 17px;
+  font-weight: 600;
+  color: #191c19;
+  font-variant-numeric: tabular-nums;
+}
+
+.btn-pay-stripe {
+  background: #2e5233 !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-weight: 550 !important;
+  padding: 9px 18px !important;
+  border-radius: 6px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  border: none !important;
+  cursor: pointer !important;
+  text-decoration: none !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.btn-pay-stripe:hover {
+  background: #234127 !important;
+}
+
+.btn-pay-stripe.small {
+  padding: 6px 12px !important;
+  font-size: 12px !important;
+}
+
+/* Controls Bar & Filter Pills */
+.dash-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e7ece5;
+  padding-bottom: 14px;
+}
+
+.dash-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dash-pill {
+  padding: 7px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  background: transparent;
+  border: 1px solid transparent;
+  color: #555d53;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.dash-pill:hover {
+  background: #f0f3ef;
+  color: #191c19;
+}
+
+.dash-pill.active {
+  background: #2e5233;
+  color: #ffffff;
+}
+
+.dash-search-box input {
+  padding: 8px 14px;
+  border: 1px solid #e4e8e3;
+  border-radius: 6px;
+  font-size: 13px;
+  width: 250px;
+  background: #ffffff;
+  color: #191c19;
+}
+
+.dash-search-box input:focus {
+  outline: none;
+  border-color: #2e5233;
+  box-shadow: 0 0 0 2px rgba(46, 82, 51, 0.1);
+}
+
+.dash-inline-notice {
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: #f4f7f3;
+  border: 1px solid #dbe3d9;
+  font-size: 13px;
+  color: #213d25;
+}
+
+/* Tables & Actions */
+.dash-table-card {
+  background: #ffffff;
+  border: 1px solid #e4e8e3;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.dash-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  text-align: left;
+}
+
+.dash-table th {
+  background: #f7f9f6;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #636b62;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 12px 18px;
+  border-bottom: 1px solid #e4e8e3;
+}
+
+.dash-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #edf1ec;
+  vertical-align: middle;
+}
+
+.dash-table tr:last-child td {
+  border-bottom: none;
+}
+
+.dash-table tr:hover td {
+  background: #fcfdfc;
+}
+
+.dash-table-primary strong {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #191c19;
+  display: block;
+}
+
+.dash-table-sub {
+  font-size: 12px;
+  color: #7b8379;
+  display: block;
+  margin-top: 2px;
+}
+
+.dash-table-meta {
+  font-size: 13px;
+  color: #555d53;
+}
+
+.dash-table-price {
+  font-size: 13.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: #191c19;
+}
+
+.dash-action-btn {
+  padding: 5px 12px;
+  border-radius: 5px;
+  border: 1px solid #dce2da;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #191c19;
+  transition: all 120ms ease;
+}
+
+.dash-action-btn:hover {
+  background: #f2f5f1;
+}
+
+.dash-action-btn.danger:hover {
+  background: #fce9e6;
+  color: #9d493e;
+  border-color: #f7c2bc;
+}
+
+.dash-action-link {
+  font-size: 12px;
+  font-weight: 600;
+  color: #2e5233;
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+.dash-action-link:hover {
+  text-decoration: underline;
+}
+
+.dash-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+
+.dash-page-btn {
+  padding: 6px 14px;
+  border-radius: 5px;
+  border: 1px solid #dce2da;
+  background: #ffffff;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.dash-page-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dash-page-indicator {
+  font-size: 12.5px;
+  color: #636b62;
+}
+
+/* Responsive Overrides */
+@media (max-width: 960px) {
+  .dash-sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 280px;
+    transform: translateX(-100%);
+    transition: transform 200ms ease;
+    z-index: 50;
+  }
+
+  .dash-sidebar.open {
+    transform: translateX(0);
+  }
+
+  .dash-mobile-bar {
+    display: flex;
+    height: 52px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    background: #ffffff;
+    border-bottom: 1px solid #e7ece5;
+    position: sticky;
+    top: 0;
+    z-index: 35;
+  }
+
+  .dash-mobile-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    display: grid;
+    place-items: center;
+    color: #191c19;
+  }
+
+  .dash-mobile-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.2px;
+  }
+
+  .dash-mobile-title .accent-mark {
+    color: #2e5233;
+  }
+
+  .dash-mobile-storefront {
+    color: #555d53;
+    padding: 6px;
+  }
+
+  .dash-top-header {
+    display: none;
+  }
+
+  .dash-page-body {
+    padding: 20px 16px 48px 16px;
+  }
+
+  .dash-stat-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

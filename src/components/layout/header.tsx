@@ -13,10 +13,15 @@ export function Header() {
   const path = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
+    if (path.startsWith("/dashboard")) return;
     api("auth/me")
       .then((x) => setUser(x.data))
       .catch(() => setUser(undefined));
   }, [path]);
+
+  if (path.startsWith("/dashboard")) {
+    return null;
+  }
   return (
     <>
       <div className="announcement">

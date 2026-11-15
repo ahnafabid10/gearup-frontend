@@ -18,6 +18,7 @@ export function useApiData(path: string) {
     setRefresh((n) => n + 1);
   }, []);
   useEffect(() => {
+    if (!path) return;
     // Ignore a response if navigation or a newer request replaced this one.
     let active = true;
     api(path)
@@ -37,6 +38,16 @@ export function useApiData(path: string) {
       active = false;
     };
   }, [path, refresh]);
+
+  if (!path) {
+    return {
+      data: undefined,
+      error: "",
+      loading: false,
+      reload,
+    };
+  }
+
   // Never show a previous filter's results while a new URL is loading.
   const current = snapshot?.path === path ? snapshot : undefined;
   return {

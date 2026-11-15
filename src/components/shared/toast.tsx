@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+import { FiX } from "react-icons/fi";
+
 export function notify(message: string, error = false) {
   window.dispatchEvent(
     new CustomEvent("gearup:notice", { detail: { message, error } }),
@@ -24,12 +26,14 @@ export function Toast() {
     <div aria-live="polite" aria-atomic="true" className="toast-region">
       {notice && (
         <div className={`toast ${notice.error ? "toast-error" : ""}`}>
-          <span>{notice.message}</span>
+          <span className="toast-message">{notice.message}</span>
           <button
+            type="button"
+            className="toast-close-btn"
             aria-label="Dismiss notification"
             onClick={() => setNotice(undefined)}
           >
-            Close
+            <FiX size={15} />
           </button>
         </div>
       )}

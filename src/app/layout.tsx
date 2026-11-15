@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import "./globals.css";
 import "./outdoor.css";
+import "./dashboard.css";
 import { Toast } from "@/components/shared/toast";
 export const metadata: Metadata = {
   title: {

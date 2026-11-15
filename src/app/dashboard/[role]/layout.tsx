@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { DashboardShell } from "@/components/layout/dashboard-shell";
+
 async function DashboardContent({
   children,
   params,
@@ -29,7 +31,8 @@ async function DashboardContent({
   if (!user?.role) redirect("/auth/login");
   if (user.role.toLowerCase() !== role)
     redirect(`/dashboard/${user.role.toLowerCase()}`);
-  return children;
+
+  return <DashboardShell user={user}>{children}</DashboardShell>;
 }
 
 export default function DashboardLayout(props: {
