@@ -41,16 +41,6 @@ export function ProfileSettings({ role }: { role: string }) {
 
   return (
     <div className="dash-profile-container">
-      <div className="dash-section-header">
-        <div>
-          <span className="dash-eyebrow">ACCOUNT MANAGEMENT</span>
-          <h2 className="dash-section-title">Personal Profile & Contact</h2>
-          <p className="dash-section-desc">
-            Keep your account information and equipment delivery details up to date.
-          </p>
-        </div>
-      </div>
-
       <DataState loading={loading} error={error} empty={!user} retry={reload}>
         {user && (
           <div className="dash-profile-grid">

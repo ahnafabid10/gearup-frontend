@@ -15,7 +15,13 @@ import {
 } from "react-icons/fi";
 import { ActivityGraph } from "@/components/dashboard/activity-graph";
 
-export function DashboardOverview({ role }: { role: string }) {
+export function DashboardOverview({
+  role,
+  showGraph = true,
+}: {
+  role: string;
+  showGraph?: boolean;
+}) {
   const usersReq = useApiData(role === "admin" ? "admin/users?limit=1" : "");
   const gearReq = useApiData(
     role === "admin"
@@ -168,16 +174,18 @@ export function DashboardOverview({ role }: { role: string }) {
       </div>
 
       {/* Activity Graph Component */}
-      <ActivityGraph
-        role={role}
-        title={
-          role === "provider"
-            ? "Monthly Revenue & Booking Performance"
-            : role === "admin"
-              ? "Platform Activity & Velocity"
-              : "Rental Frequency & Outdoor Milestones"
-        }
-      />
+      {showGraph && (
+        <ActivityGraph
+          role={role}
+          title={
+            role === "provider"
+              ? "Monthly Revenue & Booking Performance"
+              : role === "admin"
+                ? "Platform Activity & Velocity"
+                : "Rental Frequency & Outdoor Milestones"
+          }
+        />
+      )}
     </div>
   );
 }

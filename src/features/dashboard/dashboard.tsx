@@ -29,14 +29,7 @@ export function Dashboard({
   const searchParams = useSearchParams();
   const urlTab = searchParams.get("tab");
 
-  const defaultTab =
-    view === "orders"
-      ? "orders"
-      : role === "admin"
-        ? "users"
-        : role === "provider"
-          ? "inventory"
-          : "orders";
+  const defaultTab = view === "orders" ? "orders" : "overview";
 
   const [overrideTab, setOverrideTab] = useState<string | null>(null);
   const [prevUrlTab, setPrevUrlTab] = useState(urlTab);
@@ -56,16 +49,22 @@ export function Dashboard({
     tab === "profile"
       ? ""
       : role === "admin"
-        ? `admin/${
-            tab === "inventory" ? "gear" : tab === "orders" ? "rentals" : "users"
-          }?search=${encodeURIComponent(search)}&page=${page}&limit=10`
+        ? tab === "overview"
+          ? "admin/rentals?limit=8"
+          : `admin/${
+              tab === "inventory" ? "gear" : tab === "orders" ? "rentals" : "users"
+            }?search=${encodeURIComponent(search)}&page=${page}&limit=10`
         : role === "provider"
-          ? tab === "inventory"
-            ? "provider/gear/my"
-            : "provider/orders"
-          : tab === "payments"
-            ? "payments"
-            : "rentals";
+          ? tab === "overview"
+            ? "provider/orders"
+            : tab === "inventory"
+              ? "provider/gear/my"
+              : "provider/orders"
+          : tab === "overview"
+            ? "rentals"
+            : tab === "payments"
+              ? "payments"
+              : "rentals";
 
   const { data, error, loading, reload } = useApiData(path);
   const list = getRows(data);
@@ -394,25 +393,43 @@ export function Dashboard({
       <div className="dash-header-section">
         <div>
           <div className="dash-eyebrow">
-            WORKSPACE · {role.toUpperCase()}
+            {tab === "profile" ? "ACCOUNT MANAGEMENT" : `WORKSPACE · ${role.toUpperCase()}`}
           </div>
           <h1 className="dash-page-title">
             {tab === "profile"
-              ? "Account Profile Settings"
-              : role === "provider"
-                ? "Make good gear go further."
-                : role === "admin"
-                  ? "Platform Control & Moderation"
-                  : "Your Outdoor Equipment Hub"}
+              ? "Personal Profile & Contact"
+              : tab === "overview"
+                ? role === "provider"
+                  ? "Provider Command Center"
+                  : role === "admin"
+                    ? "Platform Control & Moderation"
+                    : "Your Outdoor Equipment Hub"
+                : tab === "inventory"
+                  ? "Gear Inventory & Listings"
+                  : tab === "orders"
+                    ? role === "customer" ? "My Rental Adventures" : "Incoming Rental Bookings"
+                    : tab === "payments"
+                      ? "Payment History & Receipts"
+                      : "Platform Members Directory"}
           </h1>
           <p className="dash-subtitle">
             {tab === "profile"
-              ? "Manage your identity, phone number, and default delivery coordinates."
-              : role === "provider"
-                ? "Manage listings, confirm bookings, and track equipment inventory."
-                : role === "admin"
-                  ? "Oversee platform members, check products provided and rented, and enforce policy."
-                  : "Track active rentals, settle confirmed checkouts, and review equipment."}
+              ? "Keep your account information, contact phone, and equipment delivery coordinates up to date."
+              : tab === "overview"
+                ? role === "provider"
+                  ? "Manage listings, confirm bookings, and track equipment earnings."
+                  : role === "admin"
+                    ? "Global platform indicators, activity velocity, and member health."
+                    : "Track ongoing rentals, complete pending payments, and review gear."
+                : tab === "inventory"
+                  ? "Manage equipment listings, availability statuses, and daily rates."
+                  : tab === "orders"
+                    ? role === "customer"
+                      ? "Review confirmed gear, complete checkout, and request equipment returns."
+                      : "Review placed bookings, confirm reservations, and hand off gear."
+                    : tab === "payments"
+                      ? "Audit all settled Stripe transactions and payment receipts."
+                      : "Search and inspect registered customer and provider accounts."}
           </p>
         </div>
 
@@ -429,8 +446,8 @@ export function Dashboard({
         <ProfileSettings role={role} />
       ) : (
         <>
-          {/* 4 Stat Metric Cards & Activity Chart */}
-          <DashboardOverview role={role} key={path + notice} />
+          {/* 4 Stat Metric Cards (Always visible) & Activity Chart (on Overview) */}
+          <DashboardOverview role={role} showGraph={tab === "overview"} />
 
           {/* Customer Action Center: Pending Payments Alert */}
           {role === "customer" && pendingPayments.length > 0 && (
@@ -478,26 +495,29 @@ export function Dashboard({
           <div className="dash-controls-bar">
             <div className="dash-pills">
               {(role === "admin"
-                ? ["users", "inventory", "orders"]
+                ? ["overview", "users", "inventory", "orders"]
                 : role === "provider"
-                  ? ["inventory", "orders"]
-                  : ["orders", "payments"]
+                  ? ["overview", "inventory", "orders"]
+                  : ["overview", "orders", "payments"]
               ).map((t) => (
                 <button
                   key={t}
+                  type="button"
                   className={`dash-pill ${tab === t ? "active" : ""}`}
                   onClick={() => {
                     setOverrideTab(t);
                     setPage(1);
                   }}
                 >
-                  {t === "users"
-                    ? "Members Directory"
-                    : t === "inventory"
-                      ? role === "admin" ? "All Equipment" : "My Inventory"
-                      : t === "orders"
-                        ? role === "customer" ? "My Rentals" : "Incoming Bookings"
-                        : "Payment History"}
+                  {t === "overview"
+                    ? "Overview"
+                    : t === "users"
+                      ? "Members Directory"
+                      : t === "inventory"
+                        ? role === "admin" ? "All Equipment" : "My Inventory"
+                        : t === "orders"
+                          ? role === "customer" ? "My Rentals" : "Incoming Bookings"
+                          : "Payment History"}
                 </button>
               ))}
             </div>
@@ -518,10 +538,14 @@ export function Dashboard({
             retry={reload}
             emptyMessage={
               tab === "users"
-                ? "No members match your search criteria."
+                ? "No platform members match your search criteria."
                 : tab === "payments"
-                  ? "No payments on record yet."
-                  : "No equipment or rentals found."
+                  ? "No payment transactions settled yet."
+                  : tab === "inventory"
+                    ? "No equipment in inventory. Click 'List new gear' to add equipment."
+                    : role === "customer"
+                      ? "You have no rental bookings yet. Explore our gear collection to start an adventure!"
+                      : "No incoming rental orders at this time."
             }
             search={
               role === "admin" && tab === "users"
