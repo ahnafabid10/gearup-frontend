@@ -173,9 +173,6 @@ export function DashboardOverview({
               hint: "Awaiting Stripe payment",
             },
           ];
-              hint: "Awaiting Stripe payment",
-            },
-          ];
 
   return (
     <div className="dash-overview-block">
