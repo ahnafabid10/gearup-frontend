@@ -79,6 +79,7 @@ export function Dashboard({
       </div>
       <DashboardOverview role={role} key={path + notice} />
       <div className="tabs">
+        {["admin", "provider"].includes(role) && <Link className="btn small" href={`/dashboard/${role}/categories`}>Categories</Link>}
         {(role === "admin"
           ? ["users", "inventory", "orders"]
           : role === "provider"

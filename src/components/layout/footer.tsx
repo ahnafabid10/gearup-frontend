@@ -1,16 +1,5 @@
-"use client";
-
 import Link from "next/link";
 
 export function Footer() {
-  return (
-    <footer className="shell footer">
-      <Link className="logo" href="/">
-        gearup<span>↗</span>
-      </Link>
-      <p>Good gear. Great outdoors. More possibilities.</p>
-      <Link href="/gear">Find your next adventure ↗</Link>
-      <small>© {new Date().getFullYear()} GearUp</small>
-    </footer>
-  );
+  return <footer className="footer-wrap"><div className="shell footer"><div><Link className="logo" href="/">gearup<span>↗</span></Link><p>A little less owning.<br />A lot more living.</p></div><nav aria-label="Footer navigation"><Link href="/gear">Explore gear</Link><Link href="/#how-it-works">How it works</Link><Link href="/auth/register">Become a provider</Link></nav><div className="footer-end"><span>Go make a memory ↗</span><small>© 2026 GearUp</small></div></div></footer>;
 }

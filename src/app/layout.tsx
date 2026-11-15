@@ -1,7 +1,9 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import "./globals.css";
+import "./outdoor.css";
 import { Toast } from "@/components/shared/toast";
 export const metadata: Metadata = {
   title: {
@@ -17,12 +19,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth">
       <body>
         <a className="skip" href="#main-content">
           Skip to content
         </a>
-        <Header />
+        <Suspense fallback={<header className="header shell" aria-label="Loading navigation"><span className="logo">gearup<span>↗</span></span></header>}>
+          <Header />
+        </Suspense>
         <div id="main-content">{children}</div>
         <Footer />
         <Toast />

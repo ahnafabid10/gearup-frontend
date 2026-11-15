@@ -11,6 +11,7 @@ export function Header() {
   const router = useRouter();
   const [user, setUser] = useState<GearRecord>();
   const path = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     api("auth/me")
       .then((x) => setUser(x.data))
@@ -19,17 +20,19 @@ export function Header() {
   return (
     <>
       <div className="announcement">
-        A little less owning. A lot more exploring.{" "}
-        <span>Make your next adventure happen ↗</span>
+        The best things in life aren’t things.
+        <Link href="/gear">Rent the gear. Keep the memories ↗</Link>
       </div>
       <header className="header shell">
         <Link className="logo" href="/">
           gearup<span>↗</span>
         </Link>
-        <nav aria-label="Main navigation">
+        <button className="menu-toggle" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close −" : "Menu +"}</button>
+        <nav id="main-navigation" className={menuOpen ? "nav-open" : ""} aria-label="Main navigation" onClick={() => setMenuOpen(false)} onKeyDown={(event) => { if (event.key === "Escape") setMenuOpen(false); }}>
           <Link href="/gear">Explore gear</Link>
           <Link href="/#how-it-works">How it works</Link>
-          <Link href="/#why-gearup">Why GearUp</Link>
+          <Link href="/#why-gearup">For providers</Link>
+          <Link className="mobile-login" href="/auth/login">Log in</Link>
         </nav>
         <div className="header-actions">
           {user ? (

@@ -4,6 +4,10 @@ export type GearRecord = {
   id: string;
   title?: string;
   name?: string;
+  slug?: string;
+  isActive?: boolean;
+  reviewNote?: string;
+  _count?: { gearItems?: number };
   email?: string;
   role?: string;
   status?: string;

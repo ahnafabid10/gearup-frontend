@@ -8,11 +8,19 @@ import { useState } from "react";
 
 export function GearCatalog({
   initialSearch = "",
+  initialCategoryId = "",
+  initialCategorySlug = "",
 }: {
   initialSearch?: string;
+  initialCategoryId?: string;
+  initialCategorySlug?: string;
 }) {
   const [search, setSearch] = useState(initialSearch);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(initialCategoryId || (initialCategorySlug ? `slug:${initialCategorySlug}` : ""));
+  const cats = useApiData("categories");
+  const selectedCategory = category.startsWith("slug:")
+    ? getRows(cats.data).find(item => item.slug === category.slice(5))?.id || category
+    : category;
   const [brand, setBrand] = useState("");
   const [max, setMax] = useState("");
   const [min, setMin] = useState("");
@@ -21,7 +29,8 @@ export function GearCatalog({
   const [sort, setSort] = useState("createdAt");
   const query = new URLSearchParams({
     search,
-    categoryId: category,
+    categoryId: selectedCategory.startsWith("slug:") ? "" : selectedCategory,
+    category: selectedCategory.startsWith("slug:") ? selectedCategory.slice(5) : "",
     brand,
     maxPrice: max,
     minPrice: min,
@@ -32,7 +41,6 @@ export function GearCatalog({
     sortOrder: sort === "dailyPrice" ? "asc" : "desc",
   });
   const { data, error, loading, reload } = useApiData(`gear?${query}`);
-  const cats = useApiData("categories");
   return (
     <main className="shell section">
       <div className="eyebrow">THE POSSIBILITIES START HERE</div>
@@ -55,13 +63,14 @@ export function GearCatalog({
           <label>
             Category
             <select
-              value={category}
+              value={selectedCategory}
               onChange={(e) => {
                 setCategory(e.target.value);
                 setPage(1);
               }}
             >
               <option value="">All categories</option>
+              {selectedCategory && !getRows(cats.data).some(item => item.id === selectedCategory) && <option value={selectedCategory}>{initialCategorySlug || "Selected category"}</option>}
               {getRows(cats.data).map((x) => (
                 <option key={x.id} value={x.id}>
                   {x.name}
@@ -69,6 +78,7 @@ export function GearCatalog({
               ))}
             </select>
           </label>
+          {cats.error && <div role="alert"><p className="error">Categories could not be loaded</p><button type="button" onClick={cats.reload}>Retry categories</button></div>}
           <label>
             Brand
             <input
