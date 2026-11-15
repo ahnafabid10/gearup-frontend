@@ -450,7 +450,8 @@ export function Dashboard({
           <DashboardOverview
             role={role}
             showGraph={tab === "overview"}
-            initialOrders={list}
+            initialOrders={tab === "overview" || tab === "orders" ? list : undefined}
+            loadingOrders={loading}
           />
 
           {/* Customer Action Center: Pending Payments Alert */}

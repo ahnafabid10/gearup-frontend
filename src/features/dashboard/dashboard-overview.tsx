@@ -14,15 +14,18 @@ import {
   FiTrendingUp,
 } from "react-icons/fi";
 import { ActivityGraph } from "@/components/dashboard/activity-graph";
+import type { GearRecord } from "@/lib/types";
 
 export function DashboardOverview({
   role,
   showGraph = true,
-  initialOrders = [],
+  initialOrders,
+  loadingOrders = false,
 }: {
   role: string;
   showGraph?: boolean;
   initialOrders?: GearRecord[];
+  loadingOrders?: boolean;
 }) {
   const usersReq = useApiData(role === "admin" ? "admin/users?limit=1" : "");
   const gearReq = useApiData(
@@ -36,22 +39,27 @@ export function DashboardOverview({
     role === "admin"
       ? "admin/rentals?limit=50"
       : role === "provider"
-        ? "provider/orders"
-        : initialOrders.length > 0
+        ? initialOrders !== undefined
+          ? ""
+          : "provider/orders"
+        : initialOrders !== undefined
           ? ""
           : "rentals"
   );
   const paymentsReq = useApiData(role === "customer" ? "payments" : "");
 
   const activeRentalsList =
-    initialOrders.length > 0
+    initialOrders !== undefined
       ? initialOrders
       : getRows(rentalsReq.data);
 
   const providerOrdersList =
-    role === "provider" && initialOrders.length > 0
+    role === "provider" && initialOrders !== undefined
       ? initialOrders
       : getRows(rentalsReq.data);
+
+  const isRentalsLoading =
+    initialOrders !== undefined ? loadingOrders : rentalsReq.loading;
 
   // Dynamic calculations for Customer
   const customerTotalRentals = activeRentalsList.length;
@@ -130,19 +138,19 @@ export function DashboardOverview({
             },
             {
               label: "Active Rentals",
-              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : providerActiveCount,
+              value: isRentalsLoading ? <span className="dash-stat-skel" /> : providerActiveCount,
               icon: FiActivity,
               hint: "Currently with customers",
             },
             {
               label: "Total Earnings",
-              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : formatMoney(providerTotalRevenue),
+              value: isRentalsLoading ? <span className="dash-stat-skel" /> : formatMoney(providerTotalRevenue),
               icon: FiDollarSign,
               hint: "Settled rental revenue",
             },
             {
               label: "Pending Orders",
-              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : providerPendingCount,
+              value: isRentalsLoading ? <span className="dash-stat-skel" /> : providerPendingCount,
               icon: FiClipboard,
               hint: "Awaiting your confirmation",
             },
@@ -150,25 +158,25 @@ export function DashboardOverview({
         : [
             {
               label: "Total Rentals",
-              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : customerTotalRentals,
+              value: isRentalsLoading ? <span className="dash-stat-skel" /> : customerTotalRentals,
               icon: FiCalendar,
               hint: "Your booking history",
             },
             {
               label: "Active Adventures",
-              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : customerActiveCount,
+              value: isRentalsLoading ? <span className="dash-stat-skel" /> : customerActiveCount,
               icon: FiBox,
               hint: "Current or confirmed gear",
             },
             {
               label: "Total Invested",
-              value: paymentsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : formatMoney(customerTotalSpent),
+              value: paymentsReq.loading && isRentalsLoading ? <span className="dash-stat-skel" /> : formatMoney(customerTotalSpent),
               icon: FiDollarSign,
               hint: "Total equipment spend",
             },
             {
               label: "Pending Checkout",
-              value: rentalsReq.loading && !initialOrders.length ? <span className="dash-stat-skel" /> : customerPendingCheckout,
+              value: isRentalsLoading ? <span className="dash-stat-skel" /> : customerPendingCheckout,
               icon: FiCreditCard,
               hint: "Awaiting Stripe payment",
             },

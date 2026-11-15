@@ -43,9 +43,7 @@ function computeMonthlyTrends(orders: GearRecord[]): ActivityDataPoint[] {
     if (target) {
       target.rentals += 1;
       const amount = Number(o.totalAmount ?? o.amount ?? 0);
-      if (o.status !== "CANCELLED") {
-        target.revenue += amount;
-      }
+      target.revenue += amount;
     }
   }
 
