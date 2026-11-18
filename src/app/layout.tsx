@@ -1,5 +1,6 @@
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import "./globals.css";
 import "./outdoor.css";
@@ -26,11 +27,16 @@ export default function RootLayout({
         <a className="skip" href="#main-content">
           Skip to content
         </a>
-        <Header />
+        <Suspense fallback={null}>
+          <Header />
+        </Suspense>
         <div id="main-content">{children}</div>
-        <Footer />
+        <Suspense fallback={null}>
+          <Footer />
+        </Suspense>
         <Toast />
       </body>
     </html>
   );
 }
+
