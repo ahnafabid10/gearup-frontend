@@ -37,8 +37,8 @@ a, button { transition: color 160ms ease, background-color 160ms ease, border-co
 .btn.small { min-height: 40px; padding: 8px 20px; }
 .hero { gap: 48px; grid-template-columns: 1fr 1.12fr; padding-top: 24px; padding-bottom: 64px; }
 .hero-copy { padding-block: 24px; }
-.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0; gap: 8px; margin-bottom: 24px; }
-.eyebrow > span { width: 6px; height: 6px; background: #6c854a; }
+.eyebrow { font-size: 12px; font-weight: 500; letter-spacing: 0; gap: 8px; margin-bottom: 24px; display: inline-flex; align-items: center; }
+.eyebrow > span:first-child:empty { width: 6px; height: 6px; background: #6c854a; border-radius: 50%; display: inline-block; flex-shrink: 0; }
 .hero h1 { font-family: Georgia, "Times New Roman", serif; font-size: clamp(48px, 5.1vw, 72px); line-height: 1.08; letter-spacing: -.045em; font-weight: 400; margin-bottom: 24px; }
 .hero h1 > span { color: #6b7e50; }
 .hero p { max-width: 392px; font-size: 16px; line-height: 1.75; margin-bottom: 32px; }

@@ -64,15 +64,15 @@ export function GearCatalog({
   return (
     <main className="shell section" style={{ paddingTop: "40px" }}>
       {/* Editorial Catalog Hero */}
-      <div className="catalog-hero-strip" style={{ marginBottom: "36px" }}>
-        <div className="eyebrow" style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
-          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#2e5233" }} />
-          <span>COMMUNITY EQUIPMENT MARKETPLACE</span>
+      <div className="catalog-hero-strip" style={{ marginBottom: "32px" }}>
+        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "12px", fontSize: "11px", fontWeight: "600", letterSpacing: "0.08em", color: "#405c45", textTransform: "uppercase" }}>
+          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#405c45", display: "inline-block", flexShrink: 0 }} />
+          <span>Community Equipment Marketplace</span>
         </div>
-        <h1 className="page-title" style={{ fontSize: "36px", fontWeight: "650", letterSpacing: "-1px", margin: "0 0 8px 0" }}>
+        <h1 style={{ fontSize: "38px", fontWeight: "600", letterSpacing: "-0.03em", color: "#1b2820", margin: "0 0 10px 0", lineHeight: "1.2" }}>
           Find your next adventure.
         </h1>
-        <p className="muted" style={{ fontSize: "15px", color: "#5e665d", margin: "0", maxWidth: "600px" }}>
+        <p style={{ fontSize: "15px", color: "#5a6458", margin: "0", maxWidth: "620px", lineHeight: "1.6" }}>
           Rent premium sports, camping, cycling, and outdoor equipment directly from verified local providers.
         </p>
       </div>
