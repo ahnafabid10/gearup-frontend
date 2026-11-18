@@ -14,10 +14,16 @@ async function DashboardContent({
   const token = (await cookies()).get("accessToken")?.value;
   let user;
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_GEARUP_API_URL || "http://localhost:5000"}/api/auth/me`,
-      { headers: { Authorization: `Bearer ${token}` }, cache: "no-store" },
-    );
+    const base = (
+      process.env.GEARUP_API_URL ||
+      process.env.NEXT_PUBLIC_GEARUP_API_URL ||
+      "http://localhost:5000"
+    ).trim().replace(/\/+$/, "");
+    const response = await fetch(`${base}/api/auth/me`, {
+      headers: { Authorization: `Bearer ${token}` },
+      cache: "no-store",
+      signal: AbortSignal.timeout(45000),
+    });
     const result = await response.json();
     user = result.data;
   } catch {

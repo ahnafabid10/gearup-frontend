@@ -35,7 +35,7 @@ async function handle(
         },
         ...(req.method !== "GET" ? { body: await req.text() } : {}),
         cache: "no-store",
-        signal: AbortSignal.timeout(15000),
+        signal: AbortSignal.timeout(45000),
       },
     );
     const data = await upstream.json();
