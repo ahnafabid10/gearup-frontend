@@ -30,7 +30,8 @@ The platform is pre-seeded with tested role accounts for evaluation:
 | Role | Email Address | Password | Permissions & Scope |
 | :--- | :--- | :--- | :--- |
 | 🛡️ **Platform Admin** | `admin@rentnest.com` | `admin123` | Full user suspension/activation, category CRUD & approval, platform metrics, moderation |
-| 🏪 **Equipment Provider**| `provider@gearup.com` | `password123` | Manage inventory CRUD, confirm reservations, mark picked up, mark returned |
+| 🏪 **Equipment Provider**| `abidprovider@gmail.com` | `123456789` | Active provider with 5+ premium outdoor listings, bookings & inventory CRUD |
+| 🏪 **Demo Provider** | `provider@gearup.com` | `password123` | Secondary test provider account |
 | 🧗 **Customer (Renter)** | `customer@gearup.com` | `password123` | Browse gear, request rentals, pay via Stripe Checkout, leave verified reviews |
 
 > 💡 *New users can also register as either a **Customer** or a **Provider** directly via the registration form.*
