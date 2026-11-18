@@ -43,7 +43,7 @@ PLACED amber; CONFIRMED blue; PAID purple; PICKED_UP green; RETURNED gray; CANCE
 
 ## Integration notes
 
-Use a same-origin server API gateway to keep tokens in HttpOnly cookies. Configure GEARUP_API_URL (default http://localhost:5000). Date overlap validation remains authoritative on the backend; the current public API does not expose a reservation calendar.
+Use a same-origin server API gateway to keep tokens in HttpOnly cookies. Configure NEXT_PUBLIC_GEARUP_API_URL (default http://localhost:5000). Date overlap validation remains authoritative on the backend; the current public API does not expose a reservation calendar.
 
 ## Implementation review
 

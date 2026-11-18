@@ -5,7 +5,7 @@ Next.js App Router + React + TypeScript + Tailwind CSS. Uses the original projec
 ## Run
 
 1. Run your GearUp backend on port 5000.
-2. Optionally set `GEARUP_API_URL` in `.env.local` to your backend origin (without `/api`). Default: `http://localhost:5000`.
+2. Optionally set `NEXT_PUBLIC_GEARUP_API_URL` in `.env.local` to your backend origin (without `/api`). Default: `http://localhost:5000`.
 3. `npm install`
 4. `npm run dev`
 5. Open http://localhost:3000.

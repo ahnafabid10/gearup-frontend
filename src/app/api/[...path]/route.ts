@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-const base = process.env.GEARUP_API_URL || "http://localhost:5000";
+const base = process.env.NEXT_PUBLIC_GEARUP_API_URL || "http://localhost:5000";
 async function handle(
   req: NextRequest,
   { params }: { params: Promise<{ path: string[] }> },
