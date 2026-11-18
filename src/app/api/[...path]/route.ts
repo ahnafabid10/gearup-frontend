@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-const base = process.env.NEXT_PUBLIC_GEARUP_API_URL || "http://localhost:5000";
 async function handle(
   req: NextRequest,
   { params }: { params: Promise<{ path: string[] }> },
@@ -14,6 +13,17 @@ async function handle(
     return out;
   }
   try {
+    const base = (
+      process.env.GEARUP_API_URL || process.env.NEXT_PUBLIC_GEARUP_API_URL ||
+      (process.env.NODE_ENV !== "production" ? "http://localhost:5000" : "")
+    ).trim().replace(/\/+$/, "");
+    if (!base) {
+      console.error("GearUp proxy: backend URL environment variable is missing");
+      return NextResponse.json(
+        { message: "Backend URL is not configured.", code: "BACKEND_URL_MISSING" },
+        { status: 503 },
+      );
+    }
     const token = req.cookies.get("accessToken")?.value;
     const upstream = await fetch(
       `${base}/api/${path.map(encodeURIComponent).join("/")}${req.nextUrl.search}`,
@@ -50,9 +60,22 @@ async function handle(
       }
     }
     return out;
-  } catch {
+  } catch (error) {
+    const failure = error instanceof Error ? error : new Error("Unknown proxy error");
+    const cause = failure.cause as { code?: string } | undefined;
+    const code = failure.name === "TimeoutError"
+      ? "BACKEND_TIMEOUT"
+      : failure instanceof SyntaxError
+        ? "BACKEND_INVALID_JSON"
+        : "BACKEND_CONNECTION_FAILED";
+    console.error("GearUp proxy failed", {
+      path: path.join("/"),
+      code,
+      errorName: failure.name,
+      networkCode: cause?.code,
+    });
     return NextResponse.json(
-      { message: "Unable to reach GearUp. Please try again shortly." },
+      { message: "Unable to reach GearUp. Please try again shortly.", code },
       { status: 502 },
     );
   }
