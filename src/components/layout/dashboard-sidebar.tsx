@@ -44,7 +44,9 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
 
   const pendingPaymentsCount =
     role === "customer"
-      ? getRows(customerRentals.data).filter((o) => o.status === "CONFIRMED").length
+      ? getRows(customerRentals.data).filter((o) =>
+          ["PLACED", "CONFIRMED"].includes(o.status || "")
+        ).length
       : 0;
 
   const pendingOrdersCount =

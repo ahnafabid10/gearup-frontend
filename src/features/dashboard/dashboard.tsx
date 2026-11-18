@@ -60,11 +60,13 @@ export function Dashboard({
   const { data, error, loading, reload } = useApiData(path);
   const list = getRows(data);
 
-  // Dedicated check for customer's confirmed rentals awaiting payment
+  // Dedicated check for customer's rentals awaiting payment
   const customerRentals = useApiData(role === "customer" ? "rentals" : "");
   const pendingPayments =
     role === "customer"
-      ? getRows(customerRentals.data).filter((o) => o.status === "CONFIRMED")
+      ? getRows(customerRentals.data).filter((o) =>
+          ["PLACED", "CONFIRMED"].includes(o.status || "")
+        )
       : [];
 
   async function action(actionPath: string, method: string, body?: unknown) {
@@ -267,6 +269,14 @@ export function Dashboard({
         <div className="table-actions justify-end">
           {role === "customer" && (
             <>
+              {["PLACED", "CONFIRMED"].includes(row.status || "") && (
+                <Link
+                  href={`/dashboard/customer/orders/${row.id}/pay`}
+                  className="btn btn-pay-stripe small"
+                >
+                  Pay with Stripe 💳 ↗
+                </Link>
+              )}
               {row.status === "PLACED" && (
                 <button
                   type="button"
@@ -276,14 +286,6 @@ export function Dashboard({
                 >
                   Cancel Order
                 </button>
-              )}
-              {row.status === "CONFIRMED" && (
-                <Link
-                  href={`/dashboard/customer/orders/${row.id}/pay`}
-                  className="btn btn-pay-stripe small"
-                >
-                  Pay with Stripe 💳 ↗
-                </Link>
               )}
               {row.status === "RETURNED" && !row.review && (
                 <ReviewForm order={row} done={reload} />
@@ -455,9 +457,9 @@ export function Dashboard({
                   <FiCreditCard size={13} />
                   <span>ACTION REQUIRED</span>
                 </div>
-                <h2>You have {pendingPayments.length} confirmed rental(s) awaiting payment</h2>
+                <h2>You have {pendingPayments.length} rental(s) awaiting payment</h2>
                 <p>
-                  The equipment provider has confirmed your reservation. Complete checkout via Stripe to secure your gear.
+                  Complete checkout via Stripe to secure your gear reservation.
                 </p>
               </div>
               <div className="dash-payment-card-list">

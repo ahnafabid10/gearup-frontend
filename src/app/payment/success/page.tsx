@@ -1,4 +1,10 @@
+import { Suspense } from "react";
 import { PaymentResult } from "@/features/payment/secure-checkout";
+
 export default function Page() {
-  return <PaymentResult />;
+  return (
+    <Suspense fallback={<div className="shell section narrow"><p>Loading payment status…</p></div>}>
+      <PaymentResult />
+    </Suspense>
+  );
 }
