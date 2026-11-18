@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { api, getRows } from "@/lib/api";
 import { useApiData } from "@/hooks/use-api-data";
 import {
@@ -36,16 +36,35 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
   const currentTab = searchParams.get("tab") || "";
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Close mobile sidebar on route or tab change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname, currentTab]);
+
+  // Lock body scroll when mobile sidebar drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [mobileOpen]);
+
   const role = user.role?.toLowerCase() || "customer";
 
   // Data for live notification badges
   const customerRentals = useApiData(role === "customer" ? "rentals" : "");
-  const providerOrders = useApiData(role === "provider" ? "provider/orders" : "");
+  const providerOrders = useApiData(
+    role === "provider" ? "provider/orders" : "",
+  );
 
   const pendingPaymentsCount =
     role === "customer"
       ? getRows(customerRentals.data).filter((o) =>
-          ["PLACED", "CONFIRMED"].includes(o.status || "")
+          ["PLACED", "CONFIRMED"].includes(o.status || ""),
         ).length
       : 0;
 
@@ -82,7 +101,11 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
         <span className="dash-mobile-title">
           gearup<span className="accent-mark">↗</span> · {role.toUpperCase()}
         </span>
-        <Link href="/gear" className="dash-mobile-storefront" title="Storefront">
+        <Link
+          href="/gear"
+          className="dash-mobile-storefront"
+          title="Storefront"
+        >
           <FiExternalLink size={16} />
         </Link>
       </div>
@@ -114,7 +137,9 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
             {user.name ? user.name.charAt(0).toUpperCase() : "U"}
           </div>
           <div className="dash-user-info">
-            <strong className="dash-user-name">{user.name || "Explorer"}</strong>
+            <strong className="dash-user-name">
+              {user.name || "Explorer"}
+            </strong>
             <small className="dash-user-email">{user.email}</small>
           </div>
         </div>
@@ -128,7 +153,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/customer"
                 className={navItemClass(
-                  pathname === "/dashboard/customer" && !currentTab
+                  pathname === "/dashboard/customer" && !currentTab,
                 )}
               >
                 <span className="dash-nav-icon">
@@ -140,7 +165,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/customer?tab=orders"
                 className={navItemClass(
-                  pathname === "/dashboard/customer" && currentTab === "orders"
+                  pathname === "/dashboard/customer" && currentTab === "orders",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -155,7 +180,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
                   pathname.includes("/orders/") && pathname.endsWith("/pay")
                     ? true
                     : pathname === "/dashboard/customer" &&
-                      currentTab === "payments"
+                        currentTab === "payments",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -163,7 +188,10 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
                 </span>
                 <span className="flex-1">Pending Payments</span>
                 {pendingPaymentsCount > 0 && (
-                  <span className="dash-alert-badge" title="Awaiting Stripe checkout">
+                  <span
+                    className="dash-alert-badge"
+                    title="Awaiting Stripe checkout"
+                  >
                     {pendingPaymentsCount} Due
                   </span>
                 )}
@@ -176,7 +204,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/provider"
                 className={navItemClass(
-                  pathname === "/dashboard/provider" && !currentTab
+                  pathname === "/dashboard/provider" && !currentTab,
                 )}
               >
                 <span className="dash-nav-icon">
@@ -188,7 +216,8 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/provider?tab=inventory"
                 className={navItemClass(
-                  pathname === "/dashboard/provider" && currentTab === "inventory"
+                  pathname === "/dashboard/provider" &&
+                    currentTab === "inventory",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -200,7 +229,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/provider/gear/new"
                 className={navItemClass(
-                  pathname === "/dashboard/provider/gear/new"
+                  pathname === "/dashboard/provider/gear/new",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -213,7 +242,8 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
                 href="/dashboard/provider/orders"
                 className={navItemClass(
                   pathname === "/dashboard/provider/orders" ||
-                    (pathname === "/dashboard/provider" && currentTab === "orders")
+                    (pathname === "/dashboard/provider" &&
+                      currentTab === "orders"),
                 )}
               >
                 <span className="dash-nav-icon">
@@ -230,7 +260,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/provider/categories"
                 className={navItemClass(
-                  pathname === "/dashboard/provider/categories"
+                  pathname === "/dashboard/provider/categories",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -246,7 +276,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/admin"
                 className={navItemClass(
-                  pathname === "/dashboard/admin" && !currentTab
+                  pathname === "/dashboard/admin" && !currentTab,
                 )}
               >
                 <span className="dash-nav-icon">
@@ -258,7 +288,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/admin?tab=users"
                 className={navItemClass(
-                  pathname === "/dashboard/admin" && currentTab === "users"
+                  pathname === "/dashboard/admin" && currentTab === "users",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -270,7 +300,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/admin?tab=inventory"
                 className={navItemClass(
-                  pathname === "/dashboard/admin" && currentTab === "inventory"
+                  pathname === "/dashboard/admin" && currentTab === "inventory",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -282,7 +312,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/admin?tab=orders"
                 className={navItemClass(
-                  pathname === "/dashboard/admin" && currentTab === "orders"
+                  pathname === "/dashboard/admin" && currentTab === "orders",
                 )}
               >
                 <span className="dash-nav-icon">
@@ -294,7 +324,7 @@ export function DashboardSidebar({ user }: { user: DashboardUser }) {
               <Link
                 href="/dashboard/admin/categories"
                 className={navItemClass(
-                  pathname === "/dashboard/admin/categories"
+                  pathname === "/dashboard/admin/categories",
                 )}
               >
                 <span className="dash-nav-icon">

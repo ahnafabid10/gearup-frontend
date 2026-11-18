@@ -14,7 +14,8 @@ export function RentalPayment({ id }: { id: string }) {
   const item = order.data?.data as GearRecord | undefined;
 
   const canPay = item && ["PLACED", "CONFIRMED"].includes(item.status || "");
-  const isPaid = item && ["PAID", "PICKED_UP", "RETURNED"].includes(item.status || "");
+  const isPaid =
+    item && ["PAID", "PICKED_UP", "RETURNED"].includes(item.status || "");
   const isCancelled = item && item.status === "CANCELLED";
 
   return (
@@ -29,7 +30,8 @@ export function RentalPayment({ id }: { id: string }) {
         <div className="panel">
           <h2>{item?.gear?.title}</h2>
           <p>
-            {formatDate(item?.startDate)} – {formatDate(item?.endDate)} ({item?.totalDays || 1} day{item?.totalDays === 1 ? "" : "s"})
+            {formatDate(item?.startDate)} – {formatDate(item?.endDate)} (
+            {item?.totalDays || 1} day{item?.totalDays === 1 ? "" : "s"})
           </p>
           <p className="big-price">{formatMoney(item?.totalAmount)}</p>
           <div style={{ marginBottom: "16px" }}>
@@ -38,7 +40,9 @@ export function RentalPayment({ id }: { id: string }) {
 
           {canPay && (
             <>
-              <p style={{ color: "#5a6458", fontSize: "14px", margin: "10px 0" }}>
+              <p
+                style={{ color: "#5a6458", fontSize: "14px", margin: "10px 0" }}
+              >
                 Complete checkout via Stripe to secure your gear reservation.
               </p>
               <SecureCheckout orderId={id} />
@@ -46,16 +50,38 @@ export function RentalPayment({ id }: { id: string }) {
           )}
 
           {isPaid && (
-            <div style={{ padding: "16px", background: "#f0fdf4", border: "1px solid #bbf7d0", borderRadius: "8px", margin: "16px 0", color: "#166534" }}>
+            <div
+              style={{
+                padding: "16px",
+                background: "#f0fdf4",
+                border: "1px solid #bbf7d0",
+                borderRadius: "8px",
+                margin: "16px 0",
+                color: "#166534",
+              }}
+            >
               <strong>✓ This rental order is fully paid.</strong>
-              <p style={{ margin: "4px 0 0 0", fontSize: "13px" }}>Check your rentals dashboard for pickup coordinates and updates.</p>
+              <p style={{ margin: "4px 0 0 0", fontSize: "13px" }}>
+                Check your rentals dashboard for pickup coordinates and updates.
+              </p>
             </div>
           )}
 
           {isCancelled && (
-            <div style={{ padding: "16px", background: "#fef2f2", border: "1px solid #fecaca", borderRadius: "8px", margin: "16px 0", color: "#991b1b" }}>
+            <div
+              style={{
+                padding: "16px",
+                background: "#fef2f2",
+                border: "1px solid #fecaca",
+                borderRadius: "8px",
+                margin: "16px 0",
+                color: "#991b1b",
+              }}
+            >
               <strong>This rental order has been cancelled.</strong>
-              <p style={{ margin: "4px 0 0 0", fontSize: "13px" }}>Payments cannot be accepted for cancelled reservations.</p>
+              <p style={{ margin: "4px 0 0 0", fontSize: "13px" }}>
+                Payments cannot be accepted for cancelled reservations.
+              </p>
             </div>
           )}
 

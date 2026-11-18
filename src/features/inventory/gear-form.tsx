@@ -90,7 +90,15 @@ export function GearForm({ id }: { id?: string }) {
             Category
             <select name="categoryId" required defaultValue={item?.categoryId}>
               <option value="">Choose category</option>
-              {item?.categoryId && !getRows(categories.data).some(c => c.id === item.categoryId) && <option value={item.categoryId}>{item.category?.name || "Current category"} (inactive — existing listing only)</option>}
+              {item?.categoryId &&
+                !getRows(categories.data).some(
+                  (c) => c.id === item.categoryId,
+                ) && (
+                  <option value={item.categoryId}>
+                    {item.category?.name || "Current category"} (inactive —
+                    existing listing only)
+                  </option>
+                )}
               {getRows(categories.data).map((c) => (
                 <option key={c.id} value={c.id}>
                   {c.name}
@@ -99,9 +107,25 @@ export function GearForm({ id }: { id?: string }) {
             </select>
           </label>
           <div className="category-field">
-            <p>Missing a category? Use the suggestion form below. New categories need admin approval.</p>
-            <button type="button" disabled={categories.loading} onClick={categories.reload}>Refresh categories</button>
-            {!categories.loading && !categories.error && !getRows(categories.data).length && <p role="status">No active categories yet. Suggest one below before creating a listing.</p>}
+            <p>
+              Missing a category? Use the suggestion form below. New categories
+              need admin approval.
+            </p>
+            <button
+              type="button"
+              disabled={categories.loading}
+              onClick={categories.reload}
+            >
+              Refresh categories
+            </button>
+            {!categories.loading &&
+              !categories.error &&
+              !getRows(categories.data).length && (
+                <p role="status">
+                  No active categories yet. Suggest one below before creating a
+                  listing.
+                </p>
+              )}
           </div>
           {["dailyPrice", "depositAmount", "totalStock"].map((n) => (
             <label key={n}>
@@ -151,7 +175,15 @@ export function GearForm({ id }: { id?: string }) {
               {error || categories.error}
             </p>
           )}
-          <button className="btn" disabled={busy || categories.loading || !!categories.error || (!item && !getRows(categories.data).length)}>
+          <button
+            className="btn"
+            disabled={
+              busy ||
+              categories.loading ||
+              !!categories.error ||
+              (!item && !getRows(categories.data).length)
+            }
+          >
             {busy ? "Saving…" : "Save listing ↗"}
           </button>
         </form>

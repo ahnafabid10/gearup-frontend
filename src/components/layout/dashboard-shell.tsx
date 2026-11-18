@@ -12,7 +12,9 @@ export function DashboardShell({
 }) {
   return (
     <div className="dash-shell-container">
-      <Suspense fallback={<aside className="dash-sidebar" aria-hidden="true" />}>
+      <Suspense
+        fallback={<aside className="dash-sidebar" aria-hidden="true" />}
+      >
         <DashboardSidebar user={user} />
       </Suspense>
       <div className="dash-main-viewport">

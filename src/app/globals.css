@@ -907,34 +907,6 @@ td small {
     padding-left: 20px;
     padding-right: 20px;
   }
-  .announcement span {
-    display: none;
-  }
-  .header {
-    height: auto;
-    min-height: 85px;
-    flex-wrap: wrap;
-    padding-top: 18px;
-    padding-bottom: 18px;
-    gap: 20px;
-  }
-  .logo {
-    font-size: 30px;
-  }
-  .header nav {
-    order: 3;
-    justify-content: center;
-    width: 100%;
-    font-size: 11px;
-  }
-  .header-actions {
-    font-size: 11px;
-    gap: 12px;
-  }
-  .btn.small {
-    padding: 9px 12px;
-    font-size: 11px;
-  }
   .hero {
     grid-template-columns: 1fr;
     padding-top: 5px;

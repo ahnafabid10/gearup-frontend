@@ -12,12 +12,7 @@ import { ReviewForm } from "@/features/reviews/review-form";
 import { DataTable, type ColumnDef } from "@/components/shared/data-table";
 import { ProfileSettings } from "@/features/dashboard/profile-settings";
 import type { GearRecord } from "@/lib/types";
-import {
-  FiCreditCard,
-  FiPlusCircle,
-  FiBox,
-  FiCalendar,
-} from "react-icons/fi";
+import { FiCreditCard, FiPlusCircle, FiBox, FiCalendar } from "react-icons/fi";
 
 export function Dashboard({
   role,
@@ -43,7 +38,11 @@ export function Dashboard({
         ? tab === "overview"
           ? "admin/rentals?limit=8"
           : `admin/${
-              tab === "inventory" ? "gear" : tab === "orders" ? "rentals" : "users"
+              tab === "inventory"
+                ? "gear"
+                : tab === "orders"
+                  ? "rentals"
+                  : "users"
             }?search=${encodeURIComponent(search)}&page=${page}&limit=10`
         : role === "provider"
           ? tab === "overview"
@@ -65,7 +64,7 @@ export function Dashboard({
   const pendingPayments =
     role === "customer"
       ? getRows(customerRentals.data).filter((o) =>
-          ["PLACED", "CONFIRMED"].includes(o.status || "")
+          ["PLACED", "CONFIRMED"].includes(o.status || ""),
         )
       : [];
 
@@ -166,7 +165,9 @@ export function Dashboard({
       key: "category",
       header: "Category",
       cell: (row) => (
-        <span className="dash-table-meta">{row.category?.name || "General"}</span>
+        <span className="dash-table-meta">
+          {row.category?.name || "General"}
+        </span>
       ),
     },
     {
@@ -175,7 +176,9 @@ export function Dashboard({
       cell: (row) => (
         <div className="flex items-center gap-2">
           <Badge status={row.isAvailable ? "AVAILABLE" : "UNAVAILABLE"} />
-          <small className="dash-table-sub">({row.availableStock} in stock)</small>
+          <small className="dash-table-sub">
+            ({row.availableStock} in stock)
+          </small>
         </div>
       ),
     },
@@ -183,7 +186,9 @@ export function Dashboard({
       key: "price",
       header: "Daily Rate",
       cell: (row) => (
-        <span className="dash-table-price">{formatMoney(row.dailyPrice)}/day</span>
+        <span className="dash-table-price">
+          {formatMoney(row.dailyPrice)}/day
+        </span>
       ),
     },
     {
@@ -228,7 +233,9 @@ export function Dashboard({
       cell: (row) => (
         <div className="dash-table-primary">
           <strong>
-            {row.gear?.title || row.rentalOrder?.gear?.title || `#${row.id.slice(0, 8)}`}
+            {row.gear?.title ||
+              row.rentalOrder?.gear?.title ||
+              `#${row.id.slice(0, 8)}`}
           </strong>
           <small className="dash-table-sub">
             {row.customer
@@ -245,7 +252,9 @@ export function Dashboard({
       header: "Rental Duration",
       cell: (row) => (
         <span className="dash-table-meta">
-          {row.startDate ? `${formatDate(row.startDate)} – ${formatDate(row.endDate)}` : "—"}
+          {row.startDate
+            ? `${formatDate(row.startDate)} – ${formatDate(row.endDate)}`
+            : "—"}
         </span>
       ),
     },
@@ -258,7 +267,9 @@ export function Dashboard({
       key: "amount",
       header: "Rental Price",
       cell: (row) => (
-        <span className="dash-table-price">{formatMoney(row.totalAmount ?? row.amount)}</span>
+        <span className="dash-table-price">
+          {formatMoney(row.totalAmount ?? row.amount)}
+        </span>
       ),
     },
     {
@@ -293,29 +304,30 @@ export function Dashboard({
             </>
           )}
 
-          {role === "provider" && ["PLACED", "PAID", "PICKED_UP"].includes(row.status || "") && (
-            <button
-              type="button"
-              className="btn small"
-              disabled={busy === `provider/orders/${row.id}`}
-              onClick={() =>
-                action(`provider/orders/${row.id}`, "PATCH", {
-                  status:
-                    row.status === "PLACED"
-                      ? "CONFIRMED"
-                      : row.status === "PAID"
-                        ? "PICKED_UP"
-                        : "RETURNED",
-                })
-              }
-            >
-              {row.status === "PLACED"
-                ? "Confirm Reservation"
-                : row.status === "PAID"
-                  ? "Mark Picked Up"
-                  : "Mark Returned"}
-            </button>
-          )}
+          {role === "provider" &&
+            ["PLACED", "PAID", "PICKED_UP"].includes(row.status || "") && (
+              <button
+                type="button"
+                className="btn small"
+                disabled={busy === `provider/orders/${row.id}`}
+                onClick={() =>
+                  action(`provider/orders/${row.id}`, "PATCH", {
+                    status:
+                      row.status === "PLACED"
+                        ? "CONFIRMED"
+                        : row.status === "PAID"
+                          ? "PICKED_UP"
+                          : "RETURNED",
+                  })
+                }
+              >
+                {row.status === "PLACED"
+                  ? "Confirm Reservation"
+                  : row.status === "PAID"
+                    ? "Mark Picked Up"
+                    : "Mark Returned"}
+              </button>
+            )}
 
           {role === "admin" && (
             <span className="text-muted text-xs">Monitored</span>
@@ -333,7 +345,10 @@ export function Dashboard({
         <div className="dash-table-primary">
           <strong>{row.rentalOrder?.gear?.title || "Equipment Rental"}</strong>
           <small className="dash-table-sub">
-            ID: {row.transactionId || row.stripePaymentIntentId || `#${row.id.slice(0, 8)}`}
+            ID:{" "}
+            {row.transactionId ||
+              row.stripePaymentIntentId ||
+              `#${row.id.slice(0, 8)}`}
           </small>
         </div>
       ),
@@ -365,7 +380,10 @@ export function Dashboard({
       align: "right",
       cell: (row) => (
         <span className="dash-stat-chip">
-          <FiCreditCard size={12} /> {typeof row.provider === "string" ? row.provider : row.provider?.name || "STRIPE"}
+          <FiCreditCard size={12} />{" "}
+          {typeof row.provider === "string"
+            ? row.provider
+            : row.provider?.name || "STRIPE"}
         </span>
       ),
     },
@@ -386,7 +404,9 @@ export function Dashboard({
       <div className="dash-header-section">
         <div>
           <div className="dash-eyebrow">
-            {tab === "profile" ? "ACCOUNT MANAGEMENT" : `WORKSPACE · ${role.toUpperCase()}`}
+            {tab === "profile"
+              ? "ACCOUNT MANAGEMENT"
+              : `WORKSPACE · ${role.toUpperCase()}`}
           </div>
           <h1 className="dash-page-title">
             {tab === "profile"
@@ -400,7 +420,9 @@ export function Dashboard({
                 : tab === "inventory"
                   ? "Gear Inventory & Listings"
                   : tab === "orders"
-                    ? role === "customer" ? "My Rental Adventures" : "Incoming Rental Bookings"
+                    ? role === "customer"
+                      ? "My Rental Adventures"
+                      : "Incoming Rental Bookings"
                     : tab === "payments"
                       ? "Payment History & Receipts"
                       : "Platform Members Directory"}
@@ -427,7 +449,10 @@ export function Dashboard({
         </div>
 
         {role === "provider" && tab !== "profile" && (
-          <Link className="btn dash-header-cta" href="/dashboard/provider/gear/new">
+          <Link
+            className="btn dash-header-cta"
+            href="/dashboard/provider/gear/new"
+          >
             <FiPlusCircle size={16} />
             <span>List new gear</span>
           </Link>
@@ -451,13 +476,18 @@ export function Dashboard({
 
           {/* Customer Action Center: Pending Payments Alert */}
           {role === "customer" && pendingPayments.length > 0 && (
-            <section className="dash-payment-alert-box" aria-label="Pending payments">
+            <section
+              className="dash-payment-alert-box"
+              aria-label="Pending payments"
+            >
               <div className="dash-payment-alert-header">
                 <div className="dash-alert-pill">
                   <FiCreditCard size={13} />
                   <span>ACTION REQUIRED</span>
                 </div>
-                <h2>You have {pendingPayments.length} rental(s) awaiting payment</h2>
+                <h2>
+                  You have {pendingPayments.length} rental(s) awaiting payment
+                </h2>
                 <p>
                   Complete checkout via Stripe to secure your gear reservation.
                 </p>
@@ -468,7 +498,9 @@ export function Dashboard({
                     <div className="dash-payment-gear-info">
                       <strong>{order.gear?.title || "Rental Order"}</strong>
                       <span className="dash-payment-dates">
-                        {formatDate(order.startDate)} – {formatDate(order.endDate)} ({order.totalDays || 1} days)
+                        {formatDate(order.startDate)} –{" "}
+                        {formatDate(order.endDate)} ({order.totalDays || 1}{" "}
+                        days)
                       </span>
                     </div>
                     <div className="dash-payment-action-group">

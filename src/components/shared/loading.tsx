@@ -25,10 +25,18 @@ export function Loading({
             <tbody>
               {Array.from({ length: 5 }).map((_, rIdx) => (
                 <tr key={`skel-${rIdx}`} className="dash-skel-row">
-                  <td><div className="dash-skel-cell" style={{ width: "70%" }} /></td>
-                  <td><div className="dash-skel-cell" style={{ width: "50%" }} /></td>
-                  <td><div className="dash-skel-cell" style={{ width: "40%" }} /></td>
-                  <td><div className="dash-skel-cell" style={{ width: "30%" }} /></td>
+                  <td>
+                    <div className="dash-skel-cell" style={{ width: "70%" }} />
+                  </td>
+                  <td>
+                    <div className="dash-skel-cell" style={{ width: "50%" }} />
+                  </td>
+                  <td>
+                    <div className="dash-skel-cell" style={{ width: "40%" }} />
+                  </td>
+                  <td>
+                    <div className="dash-skel-cell" style={{ width: "30%" }} />
+                  </td>
                 </tr>
               ))}
             </tbody>

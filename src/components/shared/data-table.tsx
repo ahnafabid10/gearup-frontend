@@ -1,7 +1,13 @@
 "use client";
 
 import { type ReactNode } from "react";
-import { FiChevronLeft, FiChevronRight, FiSearch, FiInbox, FiAlertCircle } from "react-icons/fi";
+import {
+  FiChevronLeft,
+  FiChevronRight,
+  FiSearch,
+  FiInbox,
+  FiAlertCircle,
+} from "react-icons/fi";
 
 export type ColumnDef<T> = {
   key: string;
@@ -105,9 +111,15 @@ export function DataTable<T extends { id?: string | number }>({
               ) : error ? (
                 // Clean in-table error box
                 <tr>
-                  <td colSpan={columns.length} className="dash-table-state-cell">
+                  <td
+                    colSpan={columns.length}
+                    className="dash-table-state-cell"
+                  >
                     <div className="dash-state-box error">
-                      <FiAlertCircle size={22} className="dash-state-icon error" />
+                      <FiAlertCircle
+                        size={22}
+                        className="dash-state-icon error"
+                      />
                       <p className="dash-state-title">Unable to load records</p>
                       <small className="dash-state-msg">{error}</small>
                       {retry && (
@@ -126,14 +138,18 @@ export function DataTable<T extends { id?: string | number }>({
               ) : !data.length ? (
                 // Clean in-table empty state
                 <tr>
-                  <td colSpan={columns.length} className="dash-table-state-cell">
+                  <td
+                    colSpan={columns.length}
+                    className="dash-table-state-cell"
+                  >
                     <div className="dash-state-box empty">
                       <FiInbox size={32} className="dash-state-icon empty" />
                       <p className="dash-state-title">
                         {emptyMessage || "No records found in this view"}
                       </p>
                       <small className="dash-state-msg">
-                        New bookings, listings, or payments will automatically populate here.
+                        New bookings, listings, or payments will automatically
+                        populate here.
                       </small>
                     </div>
                   </td>

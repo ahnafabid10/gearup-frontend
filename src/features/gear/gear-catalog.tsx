@@ -5,11 +5,7 @@ import { useApiData } from "@/hooks/use-api-data";
 import { DataState } from "@/components/shared/data-state";
 import { GearCard } from "@/components/gear/gear-card";
 import { useState } from "react";
-import {
-  FiFilter,
-  FiRotateCcw,
-  FiSliders,
-} from "react-icons/fi";
+import { FiFilter, FiRotateCcw, FiSliders } from "react-icons/fi";
 
 export function GearCatalog({
   initialSearch = "",
@@ -21,10 +17,14 @@ export function GearCatalog({
   initialCategorySlug?: string;
 }) {
   const [search, setSearch] = useState(initialSearch);
-  const [category, setCategory] = useState(initialCategoryId || (initialCategorySlug ? `slug:${initialCategorySlug}` : ""));
+  const [category, setCategory] = useState(
+    initialCategoryId ||
+      (initialCategorySlug ? `slug:${initialCategorySlug}` : ""),
+  );
   const cats = useApiData("categories");
   const selectedCategory = category.startsWith("slug:")
-    ? getRows(cats.data).find(item => item.slug === category.slice(5))?.id || category
+    ? getRows(cats.data).find((item) => item.slug === category.slice(5))?.id ||
+      category
     : category;
   const [brand, setBrand] = useState("");
   const [max, setMax] = useState("");
@@ -35,7 +35,9 @@ export function GearCatalog({
   const query = new URLSearchParams({
     search,
     categoryId: selectedCategory.startsWith("slug:") ? "" : selectedCategory,
-    category: selectedCategory.startsWith("slug:") ? selectedCategory.slice(5) : "",
+    category: selectedCategory.startsWith("slug:")
+      ? selectedCategory.slice(5)
+      : "",
     brand,
     maxPrice: max,
     minPrice: min,
@@ -47,7 +49,9 @@ export function GearCatalog({
   });
   const { data, error, loading, reload } = useApiData(`gear?${query}`);
 
-  const hasActiveFilters = Boolean(search || category || brand || min || max || available);
+  const hasActiveFilters = Boolean(
+    search || category || brand || min || max || available,
+  );
 
   const resetAllFilters = () => {
     setSearch("");
@@ -65,23 +69,80 @@ export function GearCatalog({
     <main className="shell section" style={{ paddingTop: "40px" }}>
       {/* Editorial Catalog Hero */}
       <div className="catalog-hero-strip" style={{ marginBottom: "32px" }}>
-        <div style={{ display: "inline-flex", alignItems: "center", gap: "8px", marginBottom: "12px", fontSize: "11px", fontWeight: "600", letterSpacing: "0.08em", color: "#405c45", textTransform: "uppercase" }}>
-          <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#405c45", display: "inline-block", flexShrink: 0 }} />
+        <div
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "8px",
+            marginBottom: "12px",
+            fontSize: "11px",
+            fontWeight: "600",
+            letterSpacing: "0.08em",
+            color: "#405c45",
+            textTransform: "uppercase",
+          }}
+        >
+          <span
+            style={{
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              background: "#405c45",
+              display: "inline-block",
+              flexShrink: 0,
+            }}
+          />
           <span>Community Equipment Marketplace</span>
         </div>
-        <h1 style={{ fontSize: "38px", fontWeight: "600", letterSpacing: "-0.03em", color: "#1b2820", margin: "0 0 10px 0", lineHeight: "1.2" }}>
+        <h1
+          style={{
+            fontSize: "38px",
+            fontWeight: "600",
+            letterSpacing: "-0.03em",
+            color: "#1b2820",
+            margin: "0 0 10px 0",
+            lineHeight: "1.2",
+          }}
+        >
           Find your next adventure.
         </h1>
-        <p style={{ fontSize: "15px", color: "#5a6458", margin: "0", maxWidth: "620px", lineHeight: "1.6" }}>
-          Rent premium sports, camping, cycling, and outdoor equipment directly from verified local providers.
+        <p
+          style={{
+            fontSize: "15px",
+            color: "#5a6458",
+            margin: "0",
+            maxWidth: "620px",
+            lineHeight: "1.6",
+          }}
+        >
+          Rent premium sports, camping, cycling, and outdoor equipment directly
+          from verified local providers.
         </p>
       </div>
 
       <div className="catalog-layout">
         {/* Modern Filter Sidebar */}
         <aside className="filters">
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", borderBottom: "1px solid var(--line)", paddingBottom: "14px", marginBottom: "16px" }}>
-            <h3 style={{ display: "flex", alignItems: "center", gap: "8px", margin: "0", fontSize: "15px", fontWeight: "600" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottom: "1px solid var(--line)",
+              paddingBottom: "14px",
+              marginBottom: "16px",
+            }}
+          >
+            <h3
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                margin: "0",
+                fontSize: "15px",
+                fontWeight: "600",
+              }}
+            >
               <FiFilter size={15} color="#2e5233" />
               <span>Filter Gear</span>
             </h3>
@@ -89,7 +150,16 @@ export function GearCatalog({
               <button
                 type="button"
                 onClick={resetAllFilters}
-                style={{ background: "transparent", border: "none", color: "#6b7768", fontSize: "12px", cursor: "pointer", display: "inline-flex", alignItems: "center", gap: "4px" }}
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#6b7768",
+                  fontSize: "12px",
+                  cursor: "pointer",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "4px",
+                }}
               >
                 <FiRotateCcw size={11} /> Reset
               </button>
@@ -97,7 +167,17 @@ export function GearCatalog({
           </div>
 
           <label>
-            <span style={{ fontSize: "12px", fontWeight: "600", color: "#3e483e", display: "block", marginBottom: "4px" }}>Search by keyword</span>
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: "600",
+                color: "#3e483e",
+                display: "block",
+                marginBottom: "4px",
+              }}
+            >
+              Search by keyword
+            </span>
             <input
               value={search}
               onChange={(e) => {
@@ -109,7 +189,17 @@ export function GearCatalog({
           </label>
 
           <label>
-            <span style={{ fontSize: "12px", fontWeight: "600", color: "#3e483e", display: "block", marginBottom: "4px" }}>Category</span>
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: "600",
+                color: "#3e483e",
+                display: "block",
+                marginBottom: "4px",
+              }}
+            >
+              Category
+            </span>
             <select
               value={selectedCategory}
               onChange={(e) => {
@@ -118,7 +208,14 @@ export function GearCatalog({
               }}
             >
               <option value="">All categories</option>
-              {selectedCategory && !getRows(cats.data).some(item => item.id === selectedCategory) && <option value={selectedCategory}>{initialCategorySlug || "Selected category"}</option>}
+              {selectedCategory &&
+                !getRows(cats.data).some(
+                  (item) => item.id === selectedCategory,
+                ) && (
+                  <option value={selectedCategory}>
+                    {initialCategorySlug || "Selected category"}
+                  </option>
+                )}
               {getRows(cats.data).map((x) => (
                 <option key={x.id} value={x.id}>
                   {x.name}
@@ -128,13 +225,26 @@ export function GearCatalog({
           </label>
 
           {cats.error && (
-            <div role="alert" style={{ fontSize: "12px", color: "#8a3c30", margin: "4px 0" }}>
+            <div
+              role="alert"
+              style={{ fontSize: "12px", color: "#8a3c30", margin: "4px 0" }}
+            >
               <span>Categories could not be loaded</span>
             </div>
           )}
 
           <label>
-            <span style={{ fontSize: "12px", fontWeight: "600", color: "#3e483e", display: "block", marginBottom: "4px" }}>Brand name</span>
+            <span
+              style={{
+                fontSize: "12px",
+                fontWeight: "600",
+                color: "#3e483e",
+                display: "block",
+                marginBottom: "4px",
+              }}
+            >
+              Brand name
+            </span>
             <input
               value={brand}
               onChange={(e) => {
@@ -145,9 +255,25 @@ export function GearCatalog({
             />
           </label>
 
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: "10px",
+            }}
+          >
             <label>
-              <span style={{ fontSize: "12px", fontWeight: "600", color: "#3e483e", display: "block", marginBottom: "4px" }}>Min ($/day)</span>
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "600",
+                  color: "#3e483e",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
+                Min ($/day)
+              </span>
               <input
                 type="number"
                 min="0"
@@ -160,7 +286,17 @@ export function GearCatalog({
               />
             </label>
             <label>
-              <span style={{ fontSize: "12px", fontWeight: "600", color: "#3e483e", display: "block", marginBottom: "4px" }}>Max ($/day)</span>
+              <span
+                style={{
+                  fontSize: "12px",
+                  fontWeight: "600",
+                  color: "#3e483e",
+                  display: "block",
+                  marginBottom: "4px",
+                }}
+              >
+                Max ($/day)
+              </span>
               <input
                 type="number"
                 min="0"
@@ -174,7 +310,16 @@ export function GearCatalog({
             </label>
           </div>
 
-          <label className="check" style={{ marginTop: "12px", cursor: "pointer", display: "flex", alignItems: "center", gap: "8px" }}>
+          <label
+            className="check"
+            style={{
+              marginTop: "12px",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+            }}
+          >
             <input
               type="checkbox"
               checked={available}
@@ -183,7 +328,11 @@ export function GearCatalog({
                 setPage(1);
               }}
             />{" "}
-            <span style={{ fontSize: "13px", color: "#243c30", fontWeight: "500" }}>Available equipment only</span>
+            <span
+              style={{ fontSize: "13px", color: "#243c30", fontWeight: "500" }}
+            >
+              Available equipment only
+            </span>
           </label>
 
           {hasActiveFilters && (
@@ -191,7 +340,12 @@ export function GearCatalog({
               type="button"
               className="btn small"
               onClick={resetAllFilters}
-              style={{ width: "100%", marginTop: "16px", justifyContent: "center", fontSize: "12.5px" }}
+              style={{
+                width: "100%",
+                marginTop: "16px",
+                justifyContent: "center",
+                fontSize: "12.5px",
+              }}
             >
               <FiRotateCcw size={13} />
               <span>Clear all filters</span>
@@ -201,9 +355,32 @@ export function GearCatalog({
 
         {/* Results Column */}
         <div>
-          <div className="results-bar" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px" }}>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: "6px", background: "#f2f5ee", padding: "6px 14px", borderRadius: "20px", fontSize: "12.5px", fontWeight: "600", color: "#2e5233" }}>
-              <span>{totalCount} {totalCount === 1 ? "gear listing" : "gear listings"} available</span>
+          <div
+            className="results-bar"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: "20px",
+            }}
+          >
+            <div
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "6px",
+                background: "#f2f5ee",
+                padding: "6px 14px",
+                borderRadius: "20px",
+                fontSize: "12.5px",
+                fontWeight: "600",
+                color: "#2e5233",
+              }}
+            >
+              <span>
+                {totalCount}{" "}
+                {totalCount === 1 ? "gear listing" : "gear listings"} available
+              </span>
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <FiSliders size={14} color="#687566" />
@@ -214,7 +391,12 @@ export function GearCatalog({
                   setSort(e.target.value);
                   setPage(1);
                 }}
-                style={{ padding: "8px 12px", borderRadius: "6px", border: "1px solid var(--line)", fontSize: "13px" }}
+                style={{
+                  padding: "8px 12px",
+                  borderRadius: "6px",
+                  border: "1px solid var(--line)",
+                  fontSize: "13px",
+                }}
               >
                 <option value="createdAt">Newest first</option>
                 <option value="dailyPrice">Price: low to high</option>
@@ -240,7 +422,9 @@ export function GearCatalog({
               <button disabled={page === 1} onClick={() => setPage(page - 1)}>
                 ← Previous
               </button>
-              <span>Page {page} of {data.meta.totalPage}</span>
+              <span>
+                Page {page} of {data.meta.totalPage}
+              </span>
               <button
                 disabled={page >= data.meta.totalPage}
                 onClick={() => setPage(page + 1)}

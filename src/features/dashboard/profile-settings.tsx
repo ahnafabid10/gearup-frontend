@@ -5,7 +5,15 @@ import { api } from "@/lib/api";
 import { useApiData } from "@/hooks/use-api-data";
 import { DataState } from "@/components/shared/data-state";
 import type { GearRecord } from "@/lib/types";
-import { FiUser, FiMail, FiPhone, FiMapPin, FiShield, FiSave, FiCheckCircle } from "react-icons/fi";
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiShield,
+  FiSave,
+  FiCheckCircle,
+} from "react-icons/fi";
 
 export function ProfileSettings({ role }: { role: string }) {
   const { data, loading, error, reload } = useApiData("users/profile");
@@ -46,7 +54,9 @@ export function ProfileSettings({ role }: { role: string }) {
           <div className="dash-profile-grid">
             {/* Profile Edit Form */}
             <form onSubmit={handleSubmit} className="dash-profile-card">
-              <h3 className="dash-profile-card-title">Edit Profile Information</h3>
+              <h3 className="dash-profile-card-title">
+                Edit Profile Information
+              </h3>
 
               {successMsg && (
                 <div className="dash-alert success" role="status">
@@ -89,7 +99,8 @@ export function ProfileSettings({ role }: { role: string }) {
                     className="dash-input disabled"
                   />
                   <small className="dash-input-hint">
-                    Email address is tied to your login credentials and security tokens.
+                    Email address is tied to your login credentials and security
+                    tokens.
                   </small>
                 </label>
               </div>
@@ -112,7 +123,8 @@ export function ProfileSettings({ role }: { role: string }) {
               <div className="dash-form-row">
                 <label className="dash-form-label">
                   <span className="label-text">
-                    <FiMapPin size={13} /> Default Equipment Pickup / Delivery Address
+                    <FiMapPin size={13} /> Default Equipment Pickup / Delivery
+                    Address
                   </span>
                   <textarea
                     name="address"
@@ -125,9 +137,15 @@ export function ProfileSettings({ role }: { role: string }) {
               </div>
 
               <div className="dash-form-actions">
-                <button type="submit" disabled={busy} className="btn dash-btn-primary">
+                <button
+                  type="submit"
+                  disabled={busy}
+                  className="btn dash-btn-primary"
+                >
                   <FiSave size={15} />
-                  <span>{busy ? "Saving Changes…" : "Save Profile Details"}</span>
+                  <span>
+                    {busy ? "Saving Changes…" : "Save Profile Details"}
+                  </span>
                 </button>
               </div>
             </form>
@@ -141,7 +159,8 @@ export function ProfileSettings({ role }: { role: string }) {
                 <div>
                   <h4 className="dash-meta-name">{user.name}</h4>
                   <p className="dash-meta-role">
-                    <FiShield size={12} /> {user.role} · {user.status || "ACTIVE"}
+                    <FiShield size={12} /> {user.role} ·{" "}
+                    {user.status || "ACTIVE"}
                   </p>
                 </div>
               </div>

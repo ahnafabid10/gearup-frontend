@@ -11,7 +11,10 @@ export default async function Page({
     <Suspense
       fallback={
         <div style={{ padding: "32px" }}>
-          <div className="dash-skeleton-row" style={{ height: "40px", marginBottom: "20px" }} />
+          <div
+            className="dash-skeleton-row"
+            style={{ height: "40px", marginBottom: "20px" }}
+          />
           <div className="dash-stat-grid-4">
             <div className="dash-stat-card" style={{ height: "110px" }} />
             <div className="dash-stat-card" style={{ height: "110px" }} />

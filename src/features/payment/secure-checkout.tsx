@@ -19,7 +19,9 @@ async function request(path: string, body?: object) {
 export default function SecureCheckout({ orderId }: { orderId: string }) {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [stage, setStage] = useState<"idle" | "processing" | "redirecting">("idle");
+  const [stage, setStage] = useState<"idle" | "processing" | "redirecting">(
+    "idle",
+  );
 
   async function handlePayment() {
     setBusy(true);
@@ -33,7 +35,9 @@ export default function SecureCheckout({ orderId }: { orderId: string }) {
       });
 
       if (!result?.checkoutUrl) {
-        throw new Error("Unable to create Stripe checkout session. Please try again.");
+        throw new Error(
+          "Unable to create Stripe checkout session. Please try again.",
+        );
       }
 
       setStage("redirecting");
@@ -41,25 +45,67 @@ export default function SecureCheckout({ orderId }: { orderId: string }) {
       // 2. Redirect browser directly to Stripe Hosted Checkout
       window.location.href = result.checkoutUrl;
     } catch (e) {
-      setError((e as Error).message || "Payment initiation failed. Please try again.");
+      setError(
+        (e as Error).message || "Payment initiation failed. Please try again.",
+      );
       setStage("idle");
       setBusy(false);
     }
   }
 
   return (
-    <div className="secure-checkout-card" style={{ marginTop: "20px", padding: "20px", background: "#fbfcfb", border: "1px solid #e4e8e3", borderRadius: "8px" }}>
-      <div style={{ display: "flex", alignItems: "center", gap: "8px", fontSize: "11px", fontWeight: "600", color: "#2e5233", letterSpacing: "0.06em", marginBottom: "8px" }}>
+    <div
+      className="secure-checkout-card"
+      style={{
+        marginTop: "20px",
+        padding: "20px",
+        background: "#fbfcfb",
+        border: "1px solid #e4e8e3",
+        borderRadius: "8px",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          fontSize: "11px",
+          fontWeight: "600",
+          color: "#2e5233",
+          letterSpacing: "0.06em",
+          marginBottom: "8px",
+        }}
+      >
         <FiLock size={12} />
         <span>SECURE STRIPE HOSTED CHECKOUT</span>
       </div>
 
-      <p style={{ fontSize: "13px", color: "#5a6458", margin: "0 0 16px 0", lineHeight: "1.5" }}>
-        You will be redirected to Stripe’s secure hosted checkout page to enter your payment details. Once completed, you will be redirected back here with instant confirmation.
+      <p
+        style={{
+          fontSize: "13px",
+          color: "#5a6458",
+          margin: "0 0 16px 0",
+          lineHeight: "1.5",
+        }}
+      >
+        You will be redirected to Stripe’s secure hosted checkout page to enter
+        your payment details. Once completed, you will be redirected back here
+        with instant confirmation.
       </p>
 
       {error && (
-        <div role="alert" style={{ padding: "10px 14px", background: "#fce9e6", border: "1px solid #f7c2bc", borderRadius: "6px", color: "#9d493e", fontSize: "13px", marginBottom: "14px" }}>
+        <div
+          role="alert"
+          style={{
+            padding: "10px 14px",
+            background: "#fce9e6",
+            border: "1px solid #f7c2bc",
+            borderRadius: "6px",
+            color: "#9d493e",
+            fontSize: "13px",
+            marginBottom: "14px",
+          }}
+        >
           {error}
         </div>
       )}
@@ -69,7 +115,13 @@ export default function SecureCheckout({ orderId }: { orderId: string }) {
         className="btn"
         disabled={busy}
         onClick={handlePayment}
-        style={{ width: "100%", justifyContent: "center", display: "inline-flex", alignItems: "center", gap: "10px" }}
+        style={{
+          width: "100%",
+          justifyContent: "center",
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "10px",
+        }}
       >
         <FiCreditCard size={16} />
         <span>
@@ -81,8 +133,23 @@ export default function SecureCheckout({ orderId }: { orderId: string }) {
         </span>
       </button>
 
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: "14px", fontSize: "12px" }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: "4px", color: "#748072" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          marginTop: "14px",
+          fontSize: "12px",
+        }}
+      >
+        <span
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "4px",
+            color: "#748072",
+          }}
+        >
           <FiShield size={12} /> 256-bit SSL Encrypted by Stripe
         </span>
         <Link

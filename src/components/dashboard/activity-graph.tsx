@@ -13,7 +13,13 @@ type ActivityDataPoint = {
 
 // Computes dynamic, real-time monthly volume and counts from actual database orders
 function computeMonthlyTrends(orders: GearRecord[]): ActivityDataPoint[] {
-  const months: { label: string; monthIndex: number; year: number; rentals: number; revenue: number }[] = [];
+  const months: {
+    label: string;
+    monthIndex: number;
+    year: number;
+    rentals: number;
+    revenue: number;
+  }[] = [];
   const now = new Date();
 
   // Generate the last 6 calendar months dynamically in chronological order
@@ -96,12 +102,27 @@ export function ActivityGraph({
           </p>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "10px",
+            flexWrap: "wrap",
+          }}
+        >
           {loading ? (
-            <span className="dash-stat-skel" style={{ width: "90px", height: "20px" }} />
+            <span
+              className="dash-stat-skel"
+              style={{ width: "90px", height: "20px" }}
+            />
           ) : (
-            <span className="dash-stat-chip" style={{ fontSize: "12px", fontWeight: "600" }}>
-              {metric === "revenue" ? formatMoney(totalSum) : `${totalSum} Total Bookings`}
+            <span
+              className="dash-stat-chip"
+              style={{ fontSize: "12px", fontWeight: "600" }}
+            >
+              {metric === "revenue"
+                ? formatMoney(totalSum)
+                : `${totalSum} Total Bookings`}
             </span>
           )}
 
@@ -151,7 +172,10 @@ export function ActivityGraph({
             {/* Dynamic Bars and Data Area */}
             {data.map((d, i) => {
               const val = d[metric];
-              const barHeight = val > 0 ? Math.max(8, (val / maxValue) * (chartHeight - 30)) : 3;
+              const barHeight =
+                val > 0
+                  ? Math.max(8, (val / maxValue) * (chartHeight - 30))
+                  : 3;
               const x = i * colWidth + colWidth * 0.25;
               const y = chartHeight - barHeight;
               const w = colWidth * 0.5;
@@ -171,7 +195,9 @@ export function ActivityGraph({
                     width={w}
                     height={barHeight}
                     rx="4"
-                    fill={val > 0 ? (isHovered ? "#234127" : "#2e5233") : "#d8dfd5"}
+                    fill={
+                      val > 0 ? (isHovered ? "#234127" : "#2e5233") : "#d8dfd5"
+                    }
                     className="dash-chart-bar"
                   />
                   {val > 0 && (

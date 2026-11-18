@@ -3,7 +3,13 @@ import { PaymentResult } from "@/features/payment/secure-checkout";
 
 export default function Page() {
   return (
-    <Suspense fallback={<div className="shell section narrow"><p>Loading payment status…</p></div>}>
+    <Suspense
+      fallback={
+        <div className="shell section narrow">
+          <p>Loading payment status…</p>
+        </div>
+      }
+    >
       <PaymentResult />
     </Suspense>
   );

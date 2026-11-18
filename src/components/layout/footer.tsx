@@ -20,8 +20,7 @@ export function Footer() {
           </Link>
           <p>
             A little less owning.
-            <br />
-            A lot more living.
+            <br />A lot more living.
           </p>
         </div>
         <nav aria-label="Footer navigation">
