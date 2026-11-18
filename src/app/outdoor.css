@@ -13,6 +13,9 @@ a, button { transition: color 160ms ease, background-color 160ms ease, border-co
 .announcement a { margin-left: 24px; color: #e0e9cb; }
 .header {
   height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   gap: 32px;
   position: sticky;
   top: 0;

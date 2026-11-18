@@ -3,25 +3,30 @@
 import { api } from "@/lib/api";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
 import type { GearRecord } from "@/lib/types";
 import Link from "next/link";
 
 export function Header() {
   const router = useRouter();
   const [user, setUser] = useState<GearRecord>();
-  const path = usePathname();
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+
+  const currentPath = pathname || "";
+  const isDashboard = currentPath.startsWith("/dashboard");
+
   useEffect(() => {
-    if (path.startsWith("/dashboard")) return;
+    if (isDashboard) return;
     api("auth/me")
       .then((x) => setUser(x.data))
       .catch(() => setUser(undefined));
-  }, [path]);
+  }, [isDashboard]);
 
-  if (path.startsWith("/dashboard")) {
+  // Hide public navigation header when user is inside dashboard workspace
+  if (isDashboard) {
     return null;
   }
+
   return (
     <>
       <div className="announcement">
@@ -32,19 +37,49 @@ export function Header() {
         <Link className="logo" href="/">
           gearup<span>↗</span>
         </Link>
-        <button className="menu-toggle" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} aria-controls="main-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? "Close −" : "Menu +"}</button>
-        <nav id="main-navigation" className={menuOpen ? "nav-open" : ""} aria-label="Main navigation" onClick={() => setMenuOpen(false)} onKeyDown={(event) => { if (event.key === "Escape") setMenuOpen(false); }}>
-          <Link href="/gear" className={path === "/gear" ? "active" : ""}>Explore gear</Link>
-          <Link href="/#how-it-works" className={path === "/#how-it-works" ? "active" : ""}>How it works</Link>
-          <Link href="/#why-gearup" className={path === "/#why-gearup" ? "active" : ""}>For providers</Link>
-          <Link className="mobile-login" href="/auth/login">Log in</Link>
+        <button
+          className="menu-toggle"
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={menuOpen}
+          aria-controls="main-navigation"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? "Close −" : "Menu +"}
+        </button>
+        <nav
+          id="main-navigation"
+          className={menuOpen ? "nav-open" : ""}
+          aria-label="Main navigation"
+          onClick={() => setMenuOpen(false)}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setMenuOpen(false);
+          }}
+        >
+          <Link href="/gear" className={currentPath === "/gear" ? "active" : ""}>
+            Explore gear
+          </Link>
+          <Link
+            href="/#how-it-works"
+            className={currentPath === "/#how-it-works" ? "active" : ""}
+          >
+            How it works
+          </Link>
+          <Link
+            href="/#why-gearup"
+            className={currentPath === "/#why-gearup" ? "active" : ""}
+          >
+            For providers
+          </Link>
+          <Link className="mobile-login" href="/auth/login">
+            Log in
+          </Link>
         </nav>
         <div className="header-actions">
           {user ? (
             <>
               <Link
                 className="btn small"
-                href={`/dashboard/${user.role?.toLowerCase()}`}
+                href={`/dashboard/${user.role?.toLowerCase() || "customer"}`}
               >
                 My dashboard ↗
               </Link>

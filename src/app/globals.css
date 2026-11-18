@@ -1124,18 +1124,6 @@ td small {
    UNSLOP CRAFTED ENTERPRISE DASHBOARD STYLES
    ========================================================================== */
 
-body:has(.dash-shell-container) .footer-wrap {
-  display: none !important;
-}
-
-body:has(.dash-shell-container) .header {
-  display: none !important;
-}
-
-body:has(.dash-shell-container) .announcement {
-  display: none !important;
-}
-
 .dash-shell-container {
   display: flex;
   min-height: 100vh;
